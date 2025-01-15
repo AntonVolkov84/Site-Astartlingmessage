@@ -1,0 +1,11 @@
+.home {
+  min-height: 1200px;
+  width: 900px;
+  background-color: #bac8d9;
+  margin: 0 auto;
+  max-width: fit-content;
+  padding: 20px;
+}
+.home-text {
+  margin-top: 0;
+}

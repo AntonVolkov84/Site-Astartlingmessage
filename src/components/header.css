@@ -1,0 +1,34 @@
+.header {
+  max-width: 900px;
+  height: 150px;
+  background-color: #193940;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header-text {
+  color: white;
+  height: 100%;
+  font-size: 40px;
+}
+.header-menu {
+  height: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.menu-info,
+.menu-home,
+.menu-customers {
+  text-decoration: none;
+}
+.header-href {
+  color: white;
+  text-decoration: none;
+}
+.header-href:hover {
+  color: red;
+}
