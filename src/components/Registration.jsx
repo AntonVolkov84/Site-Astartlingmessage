@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./registration.css";
 import { useNavigate } from "react-router-dom";
-import Map from "./Map";
+import MapWindow from "./MapWindow";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 function Registration() {
@@ -12,10 +12,15 @@ function Registration() {
   const [location, setLocation] = useState(null);
   const auth = getAuth();
   const navigate = useNavigate();
-
+  const clearState = () => {
+    setEmail("");
+    setCompanyName("");
+    setPassword("");
+    setPasswordConfirm("");
+    setLocation(null);
+  };
   const handleLocationSelect = (location) => {
     setLocation(location);
-    console.log("Selected location:", location);
   };
   const verificationData = (e) => {
     e.preventDefault();
@@ -35,6 +40,7 @@ function Registration() {
       return alert("Select your location on the map");
     } else {
       registrationWithEmail();
+      clearState();
     }
   };
   const registrationWithEmail = () => {
@@ -88,7 +94,7 @@ function Registration() {
         ></input>
         <div>
           <h3 className="registration-locationtext">Select your location</h3>
-          <Map onLocationSelect={handleLocationSelect} />
+          <MapWindow onLocationSelect={handleLocationSelect} />
           {location && (
             <div>
               <h2>Selected Location:</h2>
