@@ -13,6 +13,9 @@ function Header() {
         <Link className="menu-info" to="info">
           <h2 className="header-href">Info</h2>
         </Link>
+        <Link className="menu-info" to="confidential">
+          <h2 className="header-href">Confidential</h2>
+        </Link>
         <Link className="menu-customers" to="customers">
           <h2 className="header-href">Customers</h2>
         </Link>

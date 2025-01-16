@@ -21,4 +21,10 @@
   padding-right: 5px;
   margin-bottom: 5px;
   border: none;
+  margin-top: 15px;
+}
+.registration-btn-submit:hover {
+  background-color: blueviolet;
+}
+.registration-locationtext {
 }

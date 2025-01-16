@@ -1,26 +1,47 @@
 import React, { useState } from "react";
 import "./registration.css";
 import { useNavigate } from "react-router-dom";
+import Map from "./Map";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 function Registration() {
   const [email, setEmail] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [location, setLocation] = useState(null);
   const auth = getAuth();
   const navigate = useNavigate();
-  const registrationWithEmail = (e) => {
+
+  const handleLocationSelect = (location) => {
+    setLocation(location);
+    console.log("Selected location:", location);
+  };
+  const verificationData = (e) => {
     e.preventDefault();
+    if (!email || !companyName || !password || !passwordConfirm) {
+      return alert("Some field is empty!");
+    }
+    if (companyName.length < 2) {
+      return alert("Name of company should be longer than 2 symbol");
+    }
     if (password !== passwordConfirm) {
       return alert("Passwords don't match");
     }
     if (password.length < 6) {
       return alert("Your password should be no less then 6 symbols");
     }
+    if (!location) {
+      return alert("Select your location on the map");
+    } else {
+      registrationWithEmail();
+    }
+  };
+  const registrationWithEmail = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        const userId = user.uid;
+
         if (user.uid) {
           sendEmailVerification(auth.currentUser).then(() => {
             alert("You may recived a mail with link for authorization");
@@ -42,7 +63,13 @@ function Registration() {
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Type your mail"
+          placeholder="Type your email"
+          className="registration-inputMail"
+        ></input>
+        <input
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
+          placeholder="Type name of your company"
           className="registration-inputMail"
         ></input>
         <input
@@ -59,9 +86,20 @@ function Registration() {
           type="password"
           className="registration-inputPassword"
         ></input>
+        <div>
+          <h3 className="registration-locationtext">Select your location</h3>
+          <Map onLocationSelect={handleLocationSelect} />
+          {location && (
+            <div>
+              <h2>Selected Location:</h2>
+              <p>Latitude: {location.lat}</p>
+              <p>Longitude: {location.lng}</p>
+            </div>
+          )}
+        </div>
         <button
           onClick={(e) => {
-            registrationWithEmail(e);
+            verificationData(e);
           }}
           className="registration-btn-submit"
           type="submit"
