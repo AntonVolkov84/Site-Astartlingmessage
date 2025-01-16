@@ -63,7 +63,7 @@ function App() {
     <Suspense fallback="loading">
       <BrowserRouter>
         <div className="App">
-          <AuthContext.Provider value={{ user, logout }}>
+          <AuthContext.Provider value={{ user, logout, db, app }}>
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />

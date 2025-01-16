@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./registration.css";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 import MapWindow from "./MapWindow";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 function Registration() {
@@ -10,6 +12,7 @@ function Registration() {
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [location, setLocation] = useState(null);
+  const { app, db } = useContext(AuthContext);
   const auth = getAuth();
   const navigate = useNavigate();
   const clearState = () => {
@@ -40,7 +43,22 @@ function Registration() {
       return alert("Select your location on the map");
     } else {
       registrationWithEmail();
+      addToCustomer(email, companyName, location);
       clearState();
+    }
+  };
+  const addToCustomer = async (email, companyName, location) => {
+    const emailInLowerCase = email.toLowerCase();
+    try {
+      const user = {
+        timestamp: serverTimestamp(),
+        email: emailInLowerCase,
+        companyName,
+        location,
+      };
+      await setDoc(doc(db, "customers", emailInLowerCase), user);
+    } catch (error) {
+      console.log("add to users", error);
     }
   };
   const registrationWithEmail = () => {
