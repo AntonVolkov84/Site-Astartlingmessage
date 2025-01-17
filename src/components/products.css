@@ -78,3 +78,45 @@
   background-color: blueviolet;
   color: white;
 }
+.products-title-already {
+  color: red;
+  text-align: center;
+  margin-top: 15px;
+}
+.products-block-show {
+  margin-top: 5px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+}
+.products-show-name {
+  width: 50%;
+  height: 100%;
+  text-justify: center;
+  font-size: 18px;
+}
+.products-show-quantity {
+  width: 23%;
+  font-size: 18px;
+}
+.products-show-price {
+  width: 14%;
+  font-size: 18px;
+}
+.products-show-btn-delete,
+.products-show-btn-edit {
+  height: 100%;
+  width: 50px;
+  border-radius: 5px;
+  border: none;
+  background-color: grey;
+}
+.products-show-btn-delete {
+  margin-right: 10px;
+}
+.products-show-btn-delete:hover,
+.products-show-btn-edit:hover {
+  background-color: blueviolet;
+  color: white;
+}

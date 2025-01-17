@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./products.css";
-import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
 
-function Products({ app, db, auth }) {
+function Products({ db, auth }) {
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [haveNotProducts, setHaveNotProducts] = useState(true);
   const [productsData, setProductsData] = useState("");
   const currentUserEmail = auth.currentUser.email;
+
+  useEffect(() => {
+    onSnapshot(
+      query(collection(db, "products", currentUserEmail, "personalProducts"), orderBy("timestamp", "asc")),
+      (snapshot) => {
+        setProductsData(snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() })));
+        setLoadingProducts(false);
+      }
+    );
+    if (productsData.length > 0) {
+      setHaveNotProducts(false);
+    }
+  }, []);
+
   const validationForm = (event) => {
     event.preventDefault();
     if (!productName || !productQuantity || !productPrice) {
@@ -77,6 +92,42 @@ function Products({ app, db, auth }) {
           Add
         </button>
       </form>
+      <h4 className="products-title-already">Already added products:</h4>
+      {loadingProducts ? (
+        <div>Loading...</div>
+      ) : (
+        <div>
+          {haveNotProducts ? (
+            <div>There is no products to show! Please add!</div>
+          ) : (
+            <>
+              {productsData.map((e, index) => (
+                <div key={index} className="products-block-show">
+                  <div className="products-show-name">{e.productName}</div>
+                  <div className="products-show-quantity">{e.productQuantity}</div>
+                  <div className="products-show-price">{e.productPrice}</div>
+                  <button
+                    onClick={() => {
+                      console.log("del", e.docId);
+                    }}
+                    className="products-show-btn-delete"
+                  >
+                    Delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      console.log("edit");
+                    }}
+                    className="products-show-btn-edit"
+                  >
+                    Edit
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 }
