@@ -1,0 +1,80 @@
+.products-title {
+  color: red;
+  text-align: center;
+}
+.products-block-input {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.products-block-label-name {
+  width: 50%;
+  position: relative;
+}
+.products-block-label {
+  position: relative;
+}
+.products-input-name {
+  height: 30px;
+  padding: 2px;
+  width: 100%;
+  border: none;
+  padding-left: 10px;
+}
+.products-input-name-label,
+.products-input-quantity-label,
+.products-input-price-label {
+  display: none;
+}
+.products-input-name:focus,
+.products-input-quantity:focus,
+.products-input-price:focus {
+  outline: none;
+}
+.products-input-name:focus ~ .products-input-name-label {
+  display: block;
+  position: absolute;
+  color: red;
+  font-size: 10px;
+  left: 35%;
+  top: -8px;
+}
+.products-input-quantity:focus ~ .products-input-quantity-label {
+  display: block;
+  position: absolute;
+  color: red;
+  font-size: 10px;
+  left: 20%;
+  top: -8px;
+}
+.products-input-price:focus ~ .products-input-price-label {
+  display: block;
+  position: absolute;
+  color: red;
+  font-size: 10px;
+  left: 20%;
+  top: -8px;
+}
+.products-input-quantity {
+  height: 30px;
+  padding: 2px;
+  border: none;
+  padding-left: 10px;
+}
+.products-input-price {
+  height: 30px;
+  padding: 2px;
+  border: none;
+  padding-left: 10px;
+}
+.products-btn-add {
+  width: 50px;
+  border-radius: 5px;
+  border: none;
+  background-color: grey;
+}
+.products-btn-add:hover {
+  background-color: blueviolet;
+  color: white;
+}

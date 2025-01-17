@@ -3,24 +3,21 @@ import "./customers.css";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../App";
+import Products from "./Products";
 
 function Customers() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, db, app } = useContext(AuthContext);
 
   const loginWithEmail = (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    });
     setEmail("");
     setPassword("");
   };
@@ -39,6 +36,9 @@ function Customers() {
             >
               Log out
             </button>
+          </div>
+          <div className="customers-block-products">
+            <Products db={db} app={app} auth={auth} />
           </div>
           <div className="customers-meinblock"></div>
         </div>
