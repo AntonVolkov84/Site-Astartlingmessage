@@ -1,16 +1,53 @@
 import React, { useState, useEffect } from "react";
 import "./products.css";
-import { addDoc, collection, onSnapshot, query, orderBy, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, doc, query, deleteDoc, orderBy, serverTimestamp } from "firebase/firestore";
 
 function Products({ db, auth }) {
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [productId, setProductId] = useState("");
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [haveNotProducts, setHaveNotProducts] = useState(true);
+  const [updatingProduct, setUpdatingProduct] = useState(false);
   const [productsData, setProductsData] = useState("");
   const currentUserEmail = auth.currentUser.email;
 
+  const updateProduct = async (event) => {
+    event.preventDefault();
+    if (!productName || !productQuantity || !productPrice) {
+      return alert("Some field is empty!");
+    } else {
+      const updatedProduct = {
+        timestamp: serverTimestamp(),
+        productName,
+        productQuantity,
+        productPrice,
+      };
+      try {
+        await deleteDoc(doc(db, "products", currentUserEmail, "personalProducts", productId));
+        await addDoc(collection(db, "products", currentUserEmail, "personalProducts"), updatedProduct);
+        clearForm();
+        setProductId("");
+        setUpdatingProduct(false);
+      } catch (error) {
+        console.log("updateProduct", error.message);
+      }
+    }
+  };
+  const deleteProduct = async (product) => {
+    const id = product.docId;
+    try {
+      await deleteDoc(doc(db, "products", currentUserEmail, "personalProducts", id));
+    } catch (error) {
+      console.log("deleteProduct", error.message);
+    }
+  };
+  useEffect(() => {
+    if (productsData.length > 0) {
+      setHaveNotProducts(false);
+    }
+  }, [productsData]);
   useEffect(() => {
     onSnapshot(
       query(collection(db, "products", currentUserEmail, "personalProducts"), orderBy("timestamp", "asc")),
@@ -19,9 +56,6 @@ function Products({ db, auth }) {
         setLoadingProducts(false);
       }
     );
-    if (productsData.length > 0) {
-      setHaveNotProducts(false);
-    }
   }, []);
 
   const validationForm = (event) => {
@@ -51,6 +85,7 @@ function Products({ db, auth }) {
       console.log("add to products", error);
     }
   };
+
   return (
     <div className="products">
       <h4 className="products-title">Add your product</h4>
@@ -88,9 +123,15 @@ function Products({ db, auth }) {
           ></input>
           <label className="products-input-price-label">Type price for product</label>
         </div>
-        <button onClick={(event) => validationForm(event)} className="products-btn-add">
-          Add
-        </button>
+        {updatingProduct ? (
+          <button onClick={(event) => updateProduct(event)} className="products-btn-add">
+            Update
+          </button>
+        ) : (
+          <button onClick={(event) => validationForm(event)} className="products-btn-add">
+            Add
+          </button>
+        )}
       </form>
       <h4 className="products-title-already">Already added products:</h4>
       {loadingProducts ? (
@@ -98,17 +139,17 @@ function Products({ db, auth }) {
       ) : (
         <div>
           {haveNotProducts ? (
-            <div>There is no products to show! Please add!</div>
+            <div>You haven't added any products yet</div>
           ) : (
             <>
-              {productsData.map((e, index) => (
+              {productsData.map((product, index) => (
                 <div key={index} className="products-block-show">
-                  <div className="products-show-name">{e.productName}</div>
-                  <div className="products-show-quantity">{e.productQuantity}</div>
-                  <div className="products-show-price">{e.productPrice}</div>
+                  <div className="products-show-name">{product.productName}</div>
+                  <div className="products-show-quantity">{product.productQuantity}</div>
+                  <div className="products-show-price">{product.productPrice}</div>
                   <button
                     onClick={() => {
-                      console.log("del", e.docId);
+                      deleteProduct(product);
                     }}
                     className="products-show-btn-delete"
                   >
@@ -116,7 +157,11 @@ function Products({ db, auth }) {
                   </button>
                   <button
                     onClick={() => {
-                      console.log("edit");
+                      setProductName(product.productName);
+                      setProductQuantity(product.productQuantity);
+                      setProductPrice(product.productPrice);
+                      setUpdatingProduct(true);
+                      setProductId(product.docId);
                     }}
                     className="products-show-btn-edit"
                   >
