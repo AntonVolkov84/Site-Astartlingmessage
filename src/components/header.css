@@ -1,7 +1,8 @@
 .header {
   max-width: 900px;
   height: 150px;
-  background-color: #193940;
+  background: rgb(25, 57, 64);
+  background: linear-gradient(70deg, rgba(25, 57, 64, 1) 0%, rgba(168, 220, 231, 1) 73%, rgba(167, 240, 250, 1) 100%);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -9,6 +10,7 @@
   align-items: center;
 }
 .header-text {
+  padding-top: 40px;
   color: white;
   height: 100%;
   font-size: 40px;
@@ -20,9 +22,14 @@
   justify-content: space-around;
   align-items: center;
 }
-.menu-info,
 .menu-home,
-.menu-customers {
+.menu-customers,
+.menu-confidential {
+  text-decoration: none;
+}
+.menu-home-active,
+.menu-customers-active,
+.menu-confidential-active {
   text-decoration: none;
 }
 .header-href {
@@ -30,5 +37,25 @@
   text-decoration: none;
 }
 .header-href:hover {
-  color: red;
+  color: blueviolet;
+}
+
+.menu-home-active > h2 {
+  color: blueviolet;
+}
+.menu-customers-active > h2 {
+  color: blueviolet;
+  text-decoration: none;
+}
+.menu-confidential-active > h2 {
+  color: blueviolet;
+}
+@media (max-width: 580px) {
+  .header {
+    height: fit-content;
+  }
+  .header-menu {
+    flex-direction: column;
+    height: fit-content;
+  }
 }

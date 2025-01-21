@@ -8,7 +8,7 @@ function Confidential() {
       <div className="confidential-block">
         <h3 className="confidential-name">1. BASIC CONCEPTS</h3>
         <p className="confidential-text">
-          "A startling message" application is an application located on the Internet, contacts: +7(978) 804-15-11 User
+          "A startling message" application is an application located on the Internet, contacts: +7(988) 330-07-79 User
           – an individual or legal entity that has posted their personal information through the Form in the
           application, with the subsequent purpose of using this data in a communication application.
         </p>
@@ -79,7 +79,7 @@ function Confidential() {
         <h3 className="confidential-name">6. STORAGE TERMS AND DESTRUCTION OF PERSONAL DATA</h3>
         <p className="confidential-text">
           6.1. The User’s personal data is stored on the website’s electronic media indefinitely. 6.2. The User’s
-          personal data is destroyed if the user wishes based on his email: ievgen.aleksandrov@gmail.com, or on the
+          personal data is destroyed if the user wishes based on his email: aleksandrovks@yandex.ru, or on the
           initiative of the "A startling message" application Administrator, without explanation reasons by deleting the
           information posted by the User by the Site Administration.
         </p>
@@ -104,8 +104,8 @@ function Confidential() {
         <p className="confidential-text">
           9.1. The user has the right to send his requests to the Administration of the "A startling message"
           application, incl. regarding the use/deletion of his personal data, provided for in paragraph 3 of this
-          Privacy Policy in writing to the email ievgen.aleksandrov@gmail.com. The request sent by the User must contain
-          the following information: for an individual: – number of the main document identifying the User or his
+          Privacy Policy in writing to the email aleksandrovks@yandex.ru. The request sent by the User must contain the
+          following information: for an individual: – number of the main document identifying the User or his
           representative; – information about the date of issue of the specified document and the issuing authority; –
           date of registration in the "A startling message" application; – text of the request in free form. 9.2. The
           application administration undertakes to consider and send a response to the User's request within 30 days

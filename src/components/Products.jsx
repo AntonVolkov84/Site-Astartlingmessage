@@ -50,7 +50,7 @@ function Products({ db, auth }) {
   }, [productsData]);
   useEffect(() => {
     onSnapshot(
-      query(collection(db, "products", currentUserEmail, "personalProducts"), orderBy("timestamp", "asc")),
+      query(collection(db, "products", currentUserEmail, "personalProducts"), orderBy("timestamp", "desc")),
       (snapshot) => {
         setProductsData(snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() })));
         setLoadingProducts(false);
@@ -93,6 +93,7 @@ function Products({ db, auth }) {
         <div className="products-block-label-name">
           <input
             value={productName}
+            autocomplete="off"
             onChange={(e) => setProductName(e.target.value)}
             id="name"
             maxLength="30"
@@ -103,6 +104,7 @@ function Products({ db, auth }) {
         </div>
         <div className="products-block-label">
           <input
+            autocomplete="off"
             onChange={(e) => setProductQuantity(e.target.value)}
             value={productQuantity}
             id="quantity"
@@ -114,11 +116,13 @@ function Products({ db, auth }) {
         </div>
         <div className="products-block-label">
           <input
+            type="number"
+            step="0.01"
             onChange={(e) => setProductPrice(e.target.value)}
             value={productPrice}
             id="price"
-            maxLength="15"
-            placeholder="Type price for product"
+            maxLength="10"
+            placeholder="Type price (e.g., 100.20)"
             className="products-input-price"
           ></input>
           <label className="products-input-price-label">Type price for product</label>

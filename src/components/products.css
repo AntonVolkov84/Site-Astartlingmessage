@@ -85,7 +85,7 @@
 }
 .products-block-show {
   margin-top: 5px;
-  height: 30px;
+  height: fit-content;
   display: flex;
   flex-direction: row;
   padding-left: 10px;
@@ -95,6 +95,7 @@
   height: 100%;
   text-justify: center;
   font-size: 18px;
+  overflow: wrap;
 }
 .products-show-quantity {
   width: 23%;
@@ -106,7 +107,7 @@
 }
 .products-show-btn-delete,
 .products-show-btn-edit {
-  height: 100%;
+  height: 25px;
   width: 50px;
   border-radius: 5px;
   border: none;
@@ -119,4 +120,30 @@
 .products-show-btn-edit:hover {
   background-color: blueviolet;
   color: white;
+}
+@media (max-width: 800px) {
+  .products-block-input {
+    flex-direction: column;
+    align-items: center;
+  }
+  .products-block-label {
+    width: 50%;
+  }
+  .products-input-quantity,
+  .products-input-price {
+    width: 100%;
+  }
+  .products-btn-add {
+    width: 50%;
+    height: 30px;
+  }
+}
+@media (max-width: 560px) {
+  .products-show-name {
+    width: 30%;
+  }
+  .products-show-quantity,
+  .products-show-price {
+    width: 20%;
+  }
 }

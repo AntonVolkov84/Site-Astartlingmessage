@@ -13,6 +13,12 @@ function Customers() {
 
   const loginWithEmail = (e) => {
     e.preventDefault();
+    if (!isEmail(email)) {
+      return alert("Something wrong in your email");
+    }
+    if (password.length < 6) {
+      return alert("Your password should be longer then 6 symbols");
+    }
     signInWithEmailAndPassword(auth, email, password).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -20,6 +26,10 @@ function Customers() {
     });
     setEmail("");
     setPassword("");
+  };
+  const isEmail = (email) => {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
   };
 
   return (
@@ -51,6 +61,7 @@ function Customers() {
           </div>
           <form className="customers-block-registerWithMail">
             <input
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Type your mail"

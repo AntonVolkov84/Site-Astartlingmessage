@@ -1,6 +1,6 @@
 .customers {
   min-height: 1200px;
-  width: 900px;
+  max-width: 900px;
   background-color: #bac8d9;
   margin: 0 auto;
   padding: 20px;
@@ -10,12 +10,12 @@
 }
 .customers-auth {
   min-height: 1200px;
-  width: 900px;
+  max-width: 900px;
   background-color: #bac8d9;
   margin: 0 auto;
 }
 .customers-block-info {
-  width: 900px;
+  max-width: 900px;
   height: 30px;
   display: flex;
   flex-direction: row;
@@ -37,6 +37,7 @@
 }
 .customers-btnlogout:hover {
   background-color: blueviolet;
+  color: white;
 }
 .customers-info {
   width: 70%;
@@ -51,7 +52,7 @@
   background-color: #193940;
   height: fit-content;
   border-radius: 12px;
-  box-shadow: 0 2px 1px white, 0 4px 2px white, 0 8px 4px white, 0 16px 8px white, 0 16px 16px white;
+  box-shadow: 0 2px 1px #a8dce7, 0 4px 2px #a8dce7, 0 8px 4px #a8dce7, 0 16px 8px #a8dce7, 0 16px 16px #a8dce7;
 }
 .inputMail,
 .inputPassword {
@@ -94,4 +95,33 @@
   background-color: whitesmoke;
   border-radius: 5px;
   padding: 10px;
+}
+@media (max-width: 800px) {
+  .customers {
+    flex-direction: column;
+  }
+  .customers-info {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .customers-block-registerWithMail {
+    margin: 0 auto;
+    width: 60%;
+    aspect-ratio: 0;
+    height: fit-content;
+  }
+}
+@media (max-width: 580px) {
+  .customers {
+    flex-direction: column;
+  }
+  .customers-info {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .customers-block-registerWithMail {
+    width: 100%;
+    aspect-ratio: 0;
+    height: fit-content;
+  }
 }

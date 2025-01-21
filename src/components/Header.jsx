@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./header.css";
 
 function Header() {
@@ -7,18 +7,19 @@ function Header() {
     <header className="header">
       <div className="header-text">A startling message</div>
       <div className="header-menu">
-        <Link className="menu-home" to="/">
+        <NavLink to="/" className={({ isActive }) => (isActive ? "menu-home-active" : "menu-home")}>
           <h2 className="header-href">Home</h2>
-        </Link>
-        <Link className="menu-info" to="info">
-          <h2 className="header-href">Info</h2>
-        </Link>
-        <Link className="menu-info" to="confidential">
+        </NavLink>
+
+        <NavLink
+          className={({ isActive }) => (isActive ? "menu-confidential-active" : "menu-confidential")}
+          to="confidential"
+        >
           <h2 className="header-href">Confidential</h2>
-        </Link>
-        <Link className="menu-customers" to="customers">
+        </NavLink>
+        <NavLink className={({ isActive }) => (isActive ? "menu-customers-active" : "menu-customers")} to="customers">
           <h2 className="header-href">Customers</h2>
-        </Link>
+        </NavLink>
       </div>
     </header>
   );

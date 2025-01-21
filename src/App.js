@@ -4,7 +4,6 @@ import React, { createContext, useState, useEffect } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import MainLayout from "./components/MainLayout";
 import Home from "./components/Home";
-import SomeInfo from "./components/SomeInfo";
 import Customers from "./components/Customers";
 import Confidential from "./components/Confidential";
 import { Suspense } from "react";
@@ -67,7 +66,6 @@ function App() {
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
-                <Route path="info" element={<SomeInfo />} />
                 <Route path="customers" element={<Customers />} />
                 <Route path="confidential" element={<Confidential />} />
                 <Route path="registration" element={<Registration app={app} db={db} />} />

@@ -27,6 +27,9 @@ function Registration() {
   };
   const verificationData = (e) => {
     e.preventDefault();
+    if (!isEmail(email)) {
+      return alert("Something wrong in your email");
+    }
     if (!email || !companyName || !password || !passwordConfirm) {
       return alert("Some field is empty!");
     }
@@ -46,6 +49,10 @@ function Registration() {
       addToCustomer(email, companyName, location);
       clearState();
     }
+  };
+  const isEmail = (email) => {
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    return regex.test(email);
   };
   const addToCustomer = async (email, companyName, location) => {
     const emailInLowerCase = email.toLowerCase();
@@ -86,6 +93,7 @@ function Registration() {
       <form className="registration-form">
         <input
           value={email}
+          type="email"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Type your email"
           className="registration-inputMail"
