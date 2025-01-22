@@ -51,7 +51,6 @@ function App() {
       .then(() => {
         setUser(null);
         localStorage.removeItem("user");
-        console.log("User signed out.");
       })
       .catch((error) => {
         console.error("Error signing out: ", error);
