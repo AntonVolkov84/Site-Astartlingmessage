@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./products.css";
 import { addDoc, collection, onSnapshot, doc, query, deleteDoc, orderBy, serverTimestamp } from "firebase/firestore";
 
-function Products({ db, auth }) {
+function Products({ db, auth, unsubscribeRef }) {
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
@@ -49,14 +49,23 @@ function Products({ db, auth }) {
     }
   }, [productsData]);
   useEffect(() => {
-    onSnapshot(
+    const unsubscribe = onSnapshot(
       query(collection(db, "products", currentUserEmail, "personalProducts"), orderBy("timestamp", "desc")),
       (snapshot) => {
         setProductsData(snapshot.docs.map((doc) => ({ docId: doc.id, ...doc.data() })));
         setLoadingProducts(false);
+      },
+      (error) => {
+        console.log(error.message);
       }
     );
-  }, []);
+    unsubscribeRef.current = unsubscribe;
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+    };
+  }, [unsubscribeRef]);
 
   const validationForm = (event) => {
     event.preventDefault();

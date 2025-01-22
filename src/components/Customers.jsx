@@ -9,7 +9,7 @@ function Customers() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
-  const { user, logout, db, app } = useContext(AuthContext);
+  const { user, logout, db, app, unsubscribeRef } = useContext(AuthContext);
 
   const loginWithEmail = (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ function Customers() {
             </button>
           </div>
           <div className="customers-block-products">
-            <Products db={db} app={app} auth={auth} />
+            <Products db={db} app={app} auth={auth} unsubscribeRef={unsubscribeRef} />
           </div>
           <div className="customers-meinblock"></div>
         </div>

@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useRef } from "react";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import MainLayout from "./components/MainLayout";
 import Home from "./components/Home";
@@ -28,6 +28,7 @@ export const AuthContext = createContext();
 function App() {
   const [user, setUser] = useState(null);
   const auth = getAuth();
+  const unsubscribeRef = useRef();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,8 +48,11 @@ function App() {
   }, [auth]);
 
   const logout = () => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+    }
     signOut(auth)
-      .then(() => {
+      .then(async () => {
         setUser(null);
         localStorage.removeItem("user");
       })
@@ -61,7 +65,7 @@ function App() {
     <Suspense fallback="loading">
       <BrowserRouter>
         <div className="App">
-          <AuthContext.Provider value={{ user, logout, db, app }}>
+          <AuthContext.Provider value={{ user, logout, db, app, unsubscribeRef }}>
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
