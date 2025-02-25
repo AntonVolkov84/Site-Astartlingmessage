@@ -10,19 +10,19 @@ import { Suspense } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import Registration from "./components/Registration";
+import { GeoFirestore } from "geofirestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDfJfOIoEjz7LsL-G2VafThBMRYCXvl-jI",
-  authDomain: "a-startling-message.firebaseapp.com",
-  projectId: "a-startling-message",
-  storageBucket: "a-startling-message.firebasestorage.app",
-  messagingSenderId: "784492008154",
-  appId: "1:784492008154:web:f172e6caedf9b048338be3",
-  measurementId: "G-KS8ZE1PKX3",
+  apiKey: "AIzaSyA6RB8iNw7-CXgS1GOkGScHK63RJuiMTIQ",
+  authDomain: "a-startling-message-de67b.firebaseapp.com",
+  projectId: "a-startling-message-de67b",
+  storageBucket: "a-startling-message-de67b.firebasestorage.app",
+  messagingSenderId: "899594134591",
+  appId: "1:899594134591:web:4d67a7ff8fde74a41f448a",
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+const geoFirestore = new GeoFirestore(db);
 export const AuthContext = createContext();
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
     <Suspense fallback="loading">
       <BrowserRouter>
         <div className="App">
-          <AuthContext.Provider value={{ user, logout, db, app, unsubscribeRef }}>
+          <AuthContext.Provider value={{ user, logout, db, app, unsubscribeRef, geoFirestore }}>
             <Routes>
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />

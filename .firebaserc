@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "a-startling-message"
-  }
+    "default": "899594134591",
+    "A startling message": "a-startling-message-de67b"
+  },
+  "targets": {},
+  "etags": {}
 }
