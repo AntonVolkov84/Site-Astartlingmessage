@@ -8,6 +8,7 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import PhoneSignIn from "./PhoneSignIn";
+import * as geofire from "geofire-common";
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -65,12 +66,19 @@ function Registration() {
 
   const addToCustomer = async (email, companyName, location) => {
     const emailInLowerCase = email.toLowerCase();
+    const lat = location.lat;
+    const lng = location.lng;
+    const hash = geofire.geohashForLocation([lat, lng]);
     try {
       const user = {
         timestamp: serverTimestamp(),
         email: emailInLowerCase,
         companyName,
-        location: new firebase.firestore.GeoPoint(location.lat, location.lng),
+        geohash: hash,
+        location: {
+          lat: lat,
+          lng: lng,
+        },
       };
       await setDoc(doc(db, "customers", emailInLowerCase), user);
     } catch (error) {
