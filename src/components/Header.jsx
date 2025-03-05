@@ -6,6 +6,8 @@ function Header() {
   return (
     <header className="header">
       <div className="header-text">A startling message</div>
+      <img src="smile.png" alt="logo" className="header-logo-conf"></img>
+      <img src="smileWithHand.png" alt="logo" className="header-logo"></img>
       <div className="header-menu">
         <NavLink to="/" className={({ isActive }) => (isActive ? "menu-home-active" : "menu-home")}>
           <h2 className="header-href">Home</h2>

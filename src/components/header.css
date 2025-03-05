@@ -8,6 +8,24 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+.header-logo {
+  height: 116px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.header-logo-conf {
+  height: 116px;
+  position: absolute;
+  left: 60px;
+  top: 15px;
+  aspect-ratio: 1;
+  object-fit: contain;
+  animation: jumpRightAndGrow 4s infinite;
 }
 .header-text {
   padding-top: 40px;
@@ -57,5 +75,58 @@
   .header-menu {
     flex-direction: column;
     height: fit-content;
+  }
+}
+@keyframes jumpRightAndGrow {
+  0% {
+    transform: translateX(0) scale(1);
+  }
+  6.25% {
+    transform: translateX(20px) scale(1.2);
+  }
+  12.5% {
+    transform: translateX(20px) scale(1);
+  }
+  18.75% {
+    transform: translateX(40px) scale(1.2);
+  }
+  25% {
+    transform: translateX(40px) scale(1);
+  }
+  29.5% {
+    transform: translateX(20px) scale(1.2);
+  }
+  35.75% {
+    transform: translateX(20px) scale(1);
+  }
+  42% {
+    transform: translateX(0) scale(1.2);
+  }
+  48.25% {
+    transform: translateX(0) scale(1);
+  }
+  54.5% {
+    transform: translateX(-20px) scale(1.2);
+  }
+  60.75% {
+    transform: translateX(-20px) scale(1);
+  }
+  67% {
+    transform: translateX(-40px) scale(1.2);
+  }
+  73.25% {
+    transform: translateX(-40px) scale(1);
+  }
+  79.5% {
+    transform: translateX(-20px) scale(1.2);
+  }
+  85.75% {
+    transform: translateX(-20px) scale(1);
+  }
+  92% {
+    transform: translateX(0) scale(1.2);
+  }
+  100% {
+    transform: translateX(0) scale(1);
   }
 }
