@@ -95,6 +95,13 @@ function Products({ db, auth, unsubscribeRef }) {
     }
   };
 
+const handlePriceChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 10) {
+      setProductPrice(value);
+    }
+  };
+
   return (
     <div className="products">
       <h4 className="products-title">Add your product</h4>
@@ -117,7 +124,7 @@ function Products({ db, auth, unsubscribeRef }) {
             onChange={(e) => setProductQuantity(e.target.value)}
             value={productQuantity}
             id="quantity"
-            maxLength="15"
+            maxLength="11"
             placeholder="Type quantity of product"
             className="products-input-quantity"
           ></input>
@@ -127,7 +134,7 @@ function Products({ db, auth, unsubscribeRef }) {
           <input
             type="number"
             step="0.01"
-            onChange={(e) => setProductPrice(e.target.value)}
+            onChange={handlePriceChange}
             value={productPrice}
             id="price"
             maxLength="10"
