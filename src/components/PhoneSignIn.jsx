@@ -25,7 +25,6 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
             },
           });
           recaptchaVerifier.render().then((widgetId) => {
-            console.log("reCAPTCHA виджет инициализирован с ID:", widgetId);
             setRecaptchaLoaded(true);
           });
           window.recaptchaVerifier = recaptchaVerifier;

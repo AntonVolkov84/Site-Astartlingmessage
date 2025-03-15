@@ -9,14 +9,17 @@ import "firebase/compat/firestore";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import PhoneSignIn from "./PhoneSignIn";
 import * as geofire from "geofire-common";
+import TelegrammBot from "./TelegrammBot";
 
 function Registration() {
   const [email, setEmail] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [userPhone, setUserPhone] = useState("");
+  const [chatId, setChatId] = useState(null);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
   const [phoneRegistrationComplete, setPhoneRegistrationComplite] = useState(false);
+  const [telegrammBotGettingChatId, setTelegrammBotGettingChatId] = useState(true);
   const [location, setLocation] = useState(null);
   const { db } = useContext(AuthContext);
   const auth = getAuth();
@@ -29,6 +32,7 @@ function Registration() {
     setPasswordConfirm("");
     setLocation(null);
     setUserPhone("");
+    setChatId(null);
   };
 
   const handleLocationSelect = (location) => {
@@ -73,6 +77,7 @@ function Registration() {
       const user = {
         timestamp: serverTimestamp(),
         email: emailInLowerCase,
+        telegrammChatId: chatId,
         companyName,
         geohash: hash,
         location: {
@@ -91,6 +96,7 @@ function Registration() {
     try {
       const user = {
         language: "en",
+        telegrammChatId: chatId,
         timestamp: serverTimestamp(),
         nikname: companyName,
         email: emailInLowerCase,
@@ -128,54 +134,60 @@ function Registration() {
     <div className="registration">
       {phoneRegistrationComplete ? (
         <form className="registration-form">
-          <input
-            value={email}
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Type your email"
-            className="registration-inputMail"
-          ></input>
-          <input
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            placeholder="Type name of your company"
-            className="registration-inputMail"
-          ></input>
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Type your password"
-            type="password"
-            className="registration-inputPassword"
-          ></input>
-          <input
-            value={passwordConfirm}
-            onChange={(e) => setPasswordConfirm(e.target.value)}
-            placeholder="Confirm your password"
-            type="password"
-            className="registration-inputPassword"
-          ></input>
+          {telegrammBotGettingChatId ? (
+            <TelegrammBot setChatId={setChatId} setTelegrammBotGettingChatId={setTelegrammBotGettingChatId} />
+          ) : (
+            <>
+              <input
+                value={email}
+                type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Type your email"
+                className="registration-inputMail"
+              ></input>
+              <input
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                placeholder="Type name of your company"
+                className="registration-inputMail"
+              ></input>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Type your password"
+                type="password"
+                className="registration-inputPassword"
+              ></input>
+              <input
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+                placeholder="Confirm your password"
+                type="password"
+                className="registration-inputPassword"
+              ></input>
 
-          <div>
-            <h3 className="registration-locationtext">Select your location</h3>
-            <MapWindow onLocationSelect={handleLocationSelect} />
-            {location && (
               <div>
-                <h2>Selected Location:</h2>
-                <p>Latitude: {location.lat}</p>
-                <p>Longitude: {location.lng}</p>
+                <h3 className="registration-locationtext">Select your location</h3>
+                <MapWindow onLocationSelect={handleLocationSelect} />
+                {location && (
+                  <div>
+                    <h2>Selected Location:</h2>
+                    <p>Latitude: {location.lat}</p>
+                    <p>Longitude: {location.lng}</p>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <button
-            onClick={(e) => {
-              verificationData(e);
-            }}
-            className="registration-btn-submit"
-            type="submit"
-          >
-            Register
-          </button>
+              <button
+                onClick={(e) => {
+                  verificationData(e);
+                }}
+                className="registration-btn-submit"
+                type="submit"
+              >
+                Register
+              </button>
+            </>
+          )}
         </form>
       ) : (
         <PhoneSignIn setPhoneRegistrationComplite={setPhoneRegistrationComplite} setUserPhone={setUserPhone} />
