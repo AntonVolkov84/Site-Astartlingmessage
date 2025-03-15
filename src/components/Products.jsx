@@ -3,9 +3,63 @@ import "./products.css";
 import { addDoc, collection, onSnapshot, doc, query, deleteDoc, orderBy, serverTimestamp } from "firebase/firestore";
 
 function Products({ db, auth, unsubscribeRef }) {
+  const emojiData = [
+    "🍇",
+    "🍏",
+    "🍎",
+    "🍐",
+    "🍊",
+    "🍋",
+    "🍌",
+    "🍉",
+    "🍇",
+    "🍓",
+    "🍈",
+    "🍒",
+    "🍑",
+    "🥭",
+    "🍍",
+    "🥥",
+    "🥝",
+    "🍅",
+    "🍆",
+    "🥑",
+    "🥦",
+    "🥬",
+    "🥒",
+    "🌶",
+    "🌽",
+    "🥕",
+    "🥔",
+    "🍠",
+    "🥐",
+    "🥯",
+    "🍞",
+    "🥖",
+    "🧀",
+    "🥚",
+    "🍳",
+    "🥞",
+    "🥓",
+    "🥩",
+    "🍗",
+    "🍖",
+    "🌭",
+    "🍔",
+    "🍟",
+    "🍕",
+    "🌮",
+    "🌯",
+    "🥗",
+    "🍿",
+    "🧂",
+    "🥤",
+    "🍩",
+  ];
   const [productName, setProductName] = useState("");
   const [productQuantity, setProductQuantity] = useState("");
   const [productPrice, setProductPrice] = useState("");
+  const [selectedEmoji, setSelectedEmoji] = useState("");
   const [productId, setProductId] = useState("");
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [haveNotProducts, setHaveNotProducts] = useState(true);
@@ -13,9 +67,13 @@ function Products({ db, auth, unsubscribeRef }) {
   const [productsData, setProductsData] = useState("");
   const currentUserEmail = auth.currentUser.email;
 
+  const handleChange = (event) => {
+    setSelectedEmoji(event.target.value);
+  };
+
   const updateProduct = async (event) => {
     event.preventDefault();
-    if (!productName || !productQuantity || !productPrice) {
+    if (!productName || !productQuantity || !productPrice || !selectedEmoji) {
       return alert("Some field is empty!");
     } else {
       const updatedProduct = {
@@ -23,6 +81,7 @@ function Products({ db, auth, unsubscribeRef }) {
         productName,
         productQuantity,
         productPrice,
+        selectedEmoji,
       };
       try {
         await deleteDoc(doc(db, "products", currentUserEmail, "personalProducts", productId));
@@ -69,10 +128,10 @@ function Products({ db, auth, unsubscribeRef }) {
 
   const validationForm = (event) => {
     event.preventDefault();
-    if (!productName || !productQuantity || !productPrice) {
+    if (!productName || !productQuantity || !productPrice || !selectedEmoji) {
       return alert("Some field is empty!");
     } else {
-      addToProducts(productName, productQuantity, productPrice);
+      addToProducts(productName, productQuantity, productPrice, selectedEmoji);
       clearForm();
     }
   };
@@ -80,14 +139,16 @@ function Products({ db, auth, unsubscribeRef }) {
     setProductName("");
     setProductQuantity("");
     setProductPrice("");
+    setSelectedEmoji("");
   };
-  const addToProducts = async (productName, productQuantity, productPrice) => {
+  const addToProducts = async (productName, productQuantity, productPrice, selectedEmoji) => {
     try {
       const product = {
         timestamp: serverTimestamp(),
         productName,
         productQuantity,
         productPrice,
+        selectedEmoji,
       };
       await addDoc(collection(db, "products", currentUserEmail, "personalProducts"), product);
     } catch (error) {
@@ -95,7 +156,7 @@ function Products({ db, auth, unsubscribeRef }) {
     }
   };
 
-const handlePriceChange = (e) => {
+  const handlePriceChange = (e) => {
     const value = e.target.value;
     if (value.length <= 10) {
       setProductPrice(value);
@@ -118,6 +179,13 @@ const handlePriceChange = (e) => {
           ></input>
           <label className="products-input-name-label">Type name of product</label>
         </div>
+        <select className="products-input-emoji" onChange={handleChange}>
+          {emojiData.map((emoji, index) => (
+            <option key={index} value={emoji}>
+              {emoji}
+            </option>
+          ))}
+        </select>
         <div className="products-block-label">
           <input
             autoComplete="off"
@@ -165,6 +233,7 @@ const handlePriceChange = (e) => {
               {productsData.map((product, index) => (
                 <div key={index} className="products-block-show">
                   <div className="products-show-name">{product.productName}</div>
+                  <div className="products-show-emoji">{product.selectedEmoji || null}</div>
                   <div className="products-show-quantity">{product.productQuantity}</div>
                   <div className="products-show-price">{product.productPrice}</div>
                   <button
