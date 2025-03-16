@@ -15,9 +15,7 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
         try {
           const recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
             size: "normal",
-            callback: (response) => {
-              console.log("reCAPTCHA решена:", response);
-            },
+            callback: (response) => {},
             "expired-callback": () => {
               alert("Recaptcha expired! Please solve it again.");
               recaptchaVerifier.reset();

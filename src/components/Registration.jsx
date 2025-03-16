@@ -135,7 +135,11 @@ function Registration() {
       {phoneRegistrationComplete ? (
         <form className="registration-form">
           {telegrammBotGettingChatId ? (
-            <TelegrammBot setChatId={setChatId} setTelegrammBotGettingChatId={setTelegrammBotGettingChatId} />
+            <TelegrammBot
+              userPhone={userPhone}
+              setChatId={setChatId}
+              setTelegrammBotGettingChatId={setTelegrammBotGettingChatId}
+            />
           ) : (
             <>
               <input
