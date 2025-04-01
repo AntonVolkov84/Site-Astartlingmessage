@@ -99,6 +99,7 @@
   width: 60px;
   background-color: transparent;
   color: whitesmoke;
+  z-index: 3;
 }
 .header-language-text:hover {
   background-color: blueviolet;

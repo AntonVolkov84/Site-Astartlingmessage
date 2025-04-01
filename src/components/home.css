@@ -7,4 +7,31 @@
 }
 .home-text {
   margin-top: 0;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.home-text:last-child {
+  margin-top: 15px;
+}
+.home-block-instruction {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+.home-block-img {
+  width: 20%;
+}
+.home-block-info {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+.home-block-text {
+  margin-top: 20px;
+  font-size: 18px;
+}
+.home-block-text:first-child {
+  margin-top: 0;
+  text-align: center;
 }

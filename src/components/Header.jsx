@@ -6,7 +6,6 @@ import i18n from "../i18n";
 
 function Header() {
   const changeLanguage = (lng) => {
-    console.log(lng);
     i18n.changeLanguage(lng);
   };
   const { t } = useTranslation();

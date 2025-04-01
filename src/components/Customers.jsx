@@ -58,39 +58,45 @@ function Customers() {
           <div className="customers-meinblock"></div>
         </div>
       ) : (
-        <div className="customers">
-          <div className="customers-info"></div>
-          <form className="customers-block-registerWithMail">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={t("customersPlaceholderEmail")}
-              className="inputMail"
-            ></input>
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder={t("customersPlaceholderPassword")}
-              type="password"
-              className="inputPassword"
-            ></input>
-            <button
-              onClick={(e) => {
-                loginWithEmail(e);
-              }}
-              className="btn-submit"
-              type="submit"
-            >
-              {t("login")}
-            </button>
-            <div className="customers-block-registration">
-              <Link className="btn-registration" to="/registration">
-                {t("registration")}
-              </Link>
+        <>
+          <div className="customers">
+            <div className="customers-info-container ">
+              <div className="customers-info">{t("customers")}</div>
+              <div className="customers-info">{t("customers1")}</div>
+              <div className="customers-info">{t("customers2")}</div>
             </div>
-          </form>
-        </div>
+            <form className="customers-block-registerWithMail">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={t("customersPlaceholderEmail")}
+                className="inputMail"
+              ></input>
+              <input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder={t("customersPlaceholderPassword")}
+                type="password"
+                className="inputPassword"
+              ></input>
+              <button
+                onClick={(e) => {
+                  loginWithEmail(e);
+                }}
+                className="btn-submit"
+                type="submit"
+              >
+                {t("login")}
+              </button>
+              <div className="customers-block-registration">
+                <Link className="btn-registration" to="/registration">
+                  {t("registration")}
+                </Link>
+              </div>
+            </form>
+          </div>
+        </>
       )}
     </>
   );
