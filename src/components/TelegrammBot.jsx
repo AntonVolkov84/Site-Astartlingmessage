@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import "./TelegrammBot.css";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 function TelegrammBot({ setTelegrammBotGettingChatId, setChatId, userPhone }) {
   const [isChecking, setIsChecking] = useState(false);
   const [error, setError] = useState(null);
   const TELEGRAM_API_KEY = process.env.REACT_APP_TELEGRAMM_API_KEY;
   const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_API_KEY}`;
+  const { t } = useTranslation();
   const checkBotChatId = async () => {
     setIsChecking(true);
     setError(null);
@@ -20,7 +22,7 @@ function TelegrammBot({ setTelegrammBotGettingChatId, setChatId, userPhone }) {
         return update.message && update.message.text && update.message.text === userPhone;
       });
       if (filteredByPhoneUpdates.length < 1) {
-        alert("Телефоны не совпадают, либо вы не отправили его боту, проверьте пожалуйста!");
+        alert(`${t("telegrammBotAlert")}`);
         setIsChecking(false);
         return;
       } else {
@@ -60,7 +62,7 @@ function TelegrammBot({ setTelegrammBotGettingChatId, setChatId, userPhone }) {
         формате, что вы вводили при регистрации.
       </p>
       <button onClick={checkBotChatId} className="telegramm-btn" disabled={isChecking}>
-        {isChecking ? "Checking..." : "Already DONE!"}
+        {isChecking ? t("telegrammBotCheck") : t("telegrammBotDone")}
       </button>
       {error && <p className="error">{error}</p>}
     </div>

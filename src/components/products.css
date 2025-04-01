@@ -76,7 +76,7 @@
   padding-left: 10px;
 }
 .products-btn-add {
-  width: 60px;
+  width: 80px;
   border-radius: 5px;
   border: none;
   background-color: grey;
@@ -120,7 +120,7 @@
 .products-show-btn-delete,
 .products-show-btn-edit {
   height: 25px;
-  width: 50px;
+  width: 65px;
   border-radius: 5px;
   border: none;
   background-color: grey;

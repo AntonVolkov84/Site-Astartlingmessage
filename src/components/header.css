@@ -1,6 +1,6 @@
 .header {
   max-width: 900px;
-  height: 150px;
+  height: 170px;
   background: rgb(25, 57, 64);
   background: linear-gradient(70deg, rgba(25, 57, 64, 1) 0%, rgba(168, 220, 231, 1) 73%, rgba(167, 240, 250, 1) 100%);
   margin: 0 auto;
@@ -19,7 +19,7 @@
   object-fit: cover;
 }
 .header-logo-conf {
-  height: 116px;
+  height: 100px;
   position: absolute;
   left: 60px;
   top: 15px;
@@ -84,6 +84,24 @@
     aspect-ratio: 1;
     object-fit: cover;
   }
+}
+.header-block-language {
+  display: flex;
+  height: 20px;
+  margin-bottom: 5px;
+  width: 100%;
+  gap: 150px;
+  justify-content: center;
+}
+.header-language-text {
+  border: none;
+  border-radius: 3px;
+  width: 60px;
+  background-color: transparent;
+  color: whitesmoke;
+}
+.header-language-text:hover {
+  background-color: blueviolet;
 }
 @media (max-width: 730px) {
   .header-logo-conf {

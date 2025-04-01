@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./products.css";
 import { addDoc, collection, onSnapshot, doc, query, deleteDoc, orderBy, serverTimestamp } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
 function Products({ db, auth, unsubscribeRef }) {
   const emojiData = [
@@ -65,6 +66,7 @@ function Products({ db, auth, unsubscribeRef }) {
   const [haveNotProducts, setHaveNotProducts] = useState(true);
   const [updatingProduct, setUpdatingProduct] = useState(false);
   const [productsData, setProductsData] = useState("");
+  const { t } = useTranslation();
   const currentUserEmail = auth.currentUser.email;
 
   const handleChange = (event) => {
@@ -74,7 +76,7 @@ function Products({ db, auth, unsubscribeRef }) {
   const updateProduct = async (event) => {
     event.preventDefault();
     if (!productName || !productQuantity || !productPrice || !selectedEmoji) {
-      return alert("Some field is empty!");
+      return alert(`${t("productsApdateProdAlert")}`);
     } else {
       const updatedProduct = {
         timestamp: serverTimestamp(),
@@ -129,7 +131,7 @@ function Products({ db, auth, unsubscribeRef }) {
   const validationForm = (event) => {
     event.preventDefault();
     if (!productName || !productQuantity || !productPrice || !selectedEmoji) {
-      return alert("Some field is empty!");
+      return alert(`${t("productsApdateProdAlert")}`);
     } else {
       addToProducts(productName, productQuantity, productPrice, selectedEmoji);
       clearForm();
@@ -165,7 +167,7 @@ function Products({ db, auth, unsubscribeRef }) {
 
   return (
     <div className="products">
-      <h4 className="products-title">Add your product</h4>
+      <h4 className="products-title">{t("productsAdd")}</h4>
       <form className="products-block-input">
         <div className="products-block-label-name">
           <input
@@ -174,10 +176,10 @@ function Products({ db, auth, unsubscribeRef }) {
             onChange={(e) => setProductName(e.target.value)}
             id="name"
             maxLength="30"
-            placeholder="Type name of product"
+            placeholder={t("productsPlaceholderProductName")}
             className="products-input-name"
           ></input>
-          <label className="products-input-name-label">Type name of product</label>
+          <label className="products-input-name-label">{t("productsPlaceholderProductName")}</label>
         </div>
         <select className="products-input-emoji" onChange={handleChange}>
           {emojiData.map((emoji, index) => (
@@ -193,10 +195,10 @@ function Products({ db, auth, unsubscribeRef }) {
             value={productQuantity}
             id="quantity"
             maxLength="11"
-            placeholder="Type quantity of product"
+            placeholder={t("productsPlaceholderproductQuantity")}
             className="products-input-quantity"
           ></input>
-          <label className="products-input-quantity-label">Type quantity of product</label>
+          <label className="products-input-quantity-label">{t("productsPlaceholderproductQuantity")}</label>
         </div>
         <div className="products-block-label">
           <input
@@ -206,28 +208,28 @@ function Products({ db, auth, unsubscribeRef }) {
             value={productPrice}
             id="price"
             maxLength="10"
-            placeholder="Type price (e.g., 100.20)"
+            placeholder={t("productsPlaceholderPrice")}
             className="products-input-price"
           ></input>
-          <label className="products-input-price-label">Type price for product</label>
+          <label className="products-input-price-label">{t("productsPlaceholderPrice")}</label>
         </div>
         {updatingProduct ? (
           <button onClick={(event) => updateProduct(event)} className="products-btn-add">
-            Update
+            {t("update")}
           </button>
         ) : (
           <button onClick={(event) => validationForm(event)} className="products-btn-add">
-            Add
+            {t("add")}
           </button>
         )}
       </form>
-      <h4 className="products-title-already">Already added products:</h4>
+      <h4 className="products-title-already">{t("productsAddedProducts")}</h4>
       {loadingProducts ? (
-        <div>Loading...</div>
+        <div>{t("loading")}</div>
       ) : (
         <div>
           {haveNotProducts ? (
-            <div>You haven't added any products yet</div>
+            <div>{t("productsNoProduct")}</div>
           ) : (
             <>
               {productsData.map((product, index) => (
@@ -242,7 +244,7 @@ function Products({ db, auth, unsubscribeRef }) {
                     }}
                     className="products-show-btn-delete"
                   >
-                    Delete
+                    {t("delete")}
                   </button>
                   <button
                     onClick={() => {
@@ -254,7 +256,7 @@ function Products({ db, auth, unsubscribeRef }) {
                     }}
                     className="products-show-btn-edit"
                   >
-                    Edit
+                    {t("update")}
                   </button>
                 </div>
               ))}

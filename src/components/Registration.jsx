@@ -10,6 +10,7 @@ import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "
 import PhoneSignIn from "./PhoneSignIn";
 import * as geofire from "geofire-common";
 import TelegrammBot from "./TelegrammBot";
+import { useTranslation } from "react-i18next";
 
 function Registration() {
   const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ function Registration() {
   const [telegrammBotGettingChatId, setTelegrammBotGettingChatId] = useState(true);
   const [location, setLocation] = useState(null);
   const { db } = useContext(AuthContext);
+  const { t } = useTranslation();
   const auth = getAuth();
   const navigate = useNavigate();
 
@@ -42,22 +44,22 @@ function Registration() {
   const verificationData = (e) => {
     e.preventDefault();
     if (!isEmail(email)) {
-      return alert("Something wrong in your email");
+      return alert(`${t("registrationVerificationDataAlertEmail")}`);
     }
     if (!email || !companyName || !password || !passwordConfirm) {
-      return alert("Some field is empty!");
+      return alert(`${t("registrationVerificationDataAlertFields")}`);
     }
     if (companyName.length < 2) {
-      return alert("Name of company should be longer than 2 symbols");
+      return alert(`${t("registrationVerificationDataAlertCompany")}`);
     }
     if (password !== passwordConfirm) {
-      return alert("Passwords don't match");
+      return alert(`${t("registrationVerificationDataAlertPassword")}`);
     }
     if (password.length < 6) {
-      return alert("Your password should be no less than 6 symbols");
+      return alert(`${t("registrationVerificationDataAlertPasswordLength")}`);
     }
     if (!location) {
-      return alert("Select your location on the map");
+      return alert(`${t("registrationVerificationDataAlertLocation")}`);
     } else {
       registrationWithEmail();
     }
@@ -118,7 +120,7 @@ function Registration() {
         setPhoneRegistrationComplite(false);
         if (user.uid) {
           sendEmailVerification(auth.currentUser).then(() => {
-            alert("You may receive a mail with a link for authorization");
+            alert(`${t("registrationregistrationWithEmailAlert")}`);
           });
           navigate("/customers");
         }
@@ -146,38 +148,44 @@ function Registration() {
                 value={email}
                 type="email"
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Type your email"
+                placeholder={t("registrationPlaceholderEmail")}
                 className="registration-inputMail"
               ></input>
               <input
                 value={companyName}
                 onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="Type name of your company"
+                placeholder={t("registrationPlaceholderCompany")}
                 className="registration-inputMail"
               ></input>
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Type your password"
+                placeholder={t("registrationPlaceholderPassword")}
                 type="password"
                 className="registration-inputPassword"
               ></input>
               <input
                 value={passwordConfirm}
                 onChange={(e) => setPasswordConfirm(e.target.value)}
-                placeholder="Confirm your password"
+                placeholder={t("registrationPlaceholderPasswordConfirm")}
                 type="password"
                 className="registration-inputPassword"
               ></input>
 
               <div>
-                <h3 className="registration-locationtext">Select your location</h3>
+                <h3 className="registration-locationtext">{t("registrationTextLocation")}</h3>
                 <MapWindow onLocationSelect={handleLocationSelect} />
                 {location && (
                   <div>
-                    <h2>Selected Location:</h2>
-                    <p>Latitude: {location.lat}</p>
-                    <p>Longitude: {location.lng}</p>
+                    <h2>{t("registrationTextLocationMap")}</h2>
+                    <p>
+                      {t("registrationTextLocationMapLat")}
+                      {location.lat}
+                    </p>
+                    <p>
+                      {t("registrationTextLocationMapLon")}
+                      {location.lng}
+                    </p>
                   </div>
                 )}
               </div>
@@ -188,7 +196,7 @@ function Registration() {
                 className="registration-btn-submit"
                 type="submit"
               >
-                Register
+                {t("registration")}
               </button>
             </>
           )}

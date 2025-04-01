@@ -11,6 +11,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import Registration from "./components/Registration";
 import { GeoFirestore } from "geofirestore";
+import "./i18n";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA6RB8iNw7-CXgS1GOkGScHK63RJuiMTIQ",
@@ -34,7 +35,7 @@ function App() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         if (!user.emailVerified) {
-          return alert("Please, verified your email");
+          return;
         }
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));

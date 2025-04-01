@@ -4,20 +4,22 @@ import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../App";
 import Products from "./Products";
+import { useTranslation } from "react-i18next";
 
 function Customers() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const auth = getAuth();
   const { user, logout, db, app, unsubscribeRef } = useContext(AuthContext);
+  const { t } = useTranslation();
 
   const loginWithEmail = (e) => {
     e.preventDefault();
     if (!isEmail(email)) {
-      return alert("Something wrong in your email");
+      return alert(`${t("customersAlertEmail")}`);
     }
     if (password.length < 6) {
-      return alert("Your password should be longer then 6 symbols");
+      return alert(`${t("customersAlertPassword")}`);
     }
     signInWithEmailAndPassword(auth, email, password).catch((error) => {
       const errorCode = error.code;
@@ -37,14 +39,17 @@ function Customers() {
       {user ? (
         <div className="customers-auth">
           <div className="customers-block-info">
-            <div className="customers-authtext">Welcome in customer interface {user.email}</div>
+            <div className="customers-authtext">
+              {t("customersGreeteng")}
+              {user.email}
+            </div>
             <button
               className="customers-btnlogout"
               onClick={() => {
                 logout();
               }}
             >
-              Log out
+              {t("customersLogOut")}
             </button>
           </div>
           <div className="customers-block-products">
@@ -54,23 +59,19 @@ function Customers() {
         </div>
       ) : (
         <div className="customers">
-          <div className="customers-info">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quo necessitatibus, nesciunt quod magnam eveniet
-            vero, aperiam perferendis dolorem, provident odio officiis modi sapiente dignissimos distinctio ut voluptate
-            illo libero voluptatum?
-          </div>
+          <div className="customers-info"></div>
           <form className="customers-block-registerWithMail">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Type your mail"
+              placeholder={t("customersPlaceholderEmail")}
               className="inputMail"
             ></input>
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Type your password"
+              placeholder={t("customersPlaceholderPassword")}
               type="password"
               className="inputPassword"
             ></input>
@@ -81,11 +82,11 @@ function Customers() {
               className="btn-submit"
               type="submit"
             >
-              Login
+              {t("login")}
             </button>
             <div className="customers-block-registration">
               <Link className="btn-registration" to="/registration">
-                Registration
+                {t("registration")}
               </Link>
             </div>
           </form>

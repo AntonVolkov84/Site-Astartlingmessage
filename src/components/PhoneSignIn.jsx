@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./phoneSignIn.css";
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { useTranslation } from "react-i18next";
 
 function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
   const [phone, setPhone] = useState("");
@@ -8,6 +9,7 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
   const auth = getAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const initializeRecaptcha = () => {
@@ -17,7 +19,7 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
             size: "normal",
             callback: (response) => {},
             "expired-callback": () => {
-              alert("Recaptcha expired! Please solve it again.");
+              alert(`${t("phoneSignInRecapthcaAlert")}`);
               recaptchaVerifier.reset();
               initializeRecaptcha();
             },
@@ -38,14 +40,14 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
   const handlePhoneVerification = async () => {
     setUserPhone(phone);
     if (!recaptchaLoaded) {
-      alert("reCAPTCHA is not loaded yet. Please wait.");
+      alert(`${t("phoneSignInRecapthcaAlertNotLoading")}`);
       return;
     }
     const recaptchaVerifier = window.recaptchaVerifier;
     try {
       const result = await signInWithPhoneNumber(auth, phone, recaptchaVerifier);
       setConfirmationResult(result);
-      alert("SMS sent. Please enter the verification code.");
+      alert(`${t("phoneSignInrecaptchaVerifierAlert")}`);
     } catch (error) {
       console.error("Error during phone verification:", error);
       if (error.code === "auth/network-request-failed") {
@@ -65,7 +67,7 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
       setPhoneRegistrationComplite(true);
     } catch (error) {
       console.error("Error verifying code:", error);
-      alert("Invalid verification code. Please try again.");
+      alert(`${t("phoneSignHandleVerifyCodeAlert")}`);
     }
   };
 
@@ -74,24 +76,24 @@ function PhoneSignIn({ setPhoneRegistrationComplite, setUserPhone }) {
       <input
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        placeholder="Type your phone number"
+        placeholder={t("phoneSignPlaceholderPhone")}
         type="tel"
         className="registration-inputPassword"
       ></input>
       <div id="recaptcha-container"></div>
       <button type="button" onClick={handlePhoneVerification} className="registration-btn-submit">
-        Send Verification Code
+        {t("phoneSignSendVerification")}
       </button>
       {confirmationResult && (
         <div>
           <input
             value={confirmPhone}
             onChange={(e) => setConfirmPhone(e.target.value)}
-            placeholder="Code from SMS"
+            placeholder={t("phoneSignPlaceholderConfirmPhone")}
             className="registration-inputPassword"
           ></input>
           <button type="button" onClick={handleVerifyCode} className="registration-btn-submit">
-            Verify Code
+            {t("phoneSignVerify")}
           </button>
         </div>
       )}

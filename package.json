@@ -11,8 +11,10 @@
     "firebase": "^11.1.0",
     "geofire-common": "^6.0.0",
     "geofirestore": "^5.2.0",
+    "i18next": "^24.2.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-i18next": "^15.4.1",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1"
   },
@@ -39,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
   }
 }
