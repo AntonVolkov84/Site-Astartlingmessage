@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { AdvancedMarker, useAdvancedMarkerRef, APIProvider, Map } from "@vis.gl/react-google-maps";
 
-function MapWindow({ onLocationSelect }) {
+function MapWindow({ initialLocation, onLocationSelect }) {
   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const [position, setPosition] = useState({ lat: 44.95, lng: 34.113 });
+
+  useEffect(() => {
+    setPosition(initialLocation);
+  }, [initialLocation]);
 
   const onMapClick = useCallback(
     (event) => {

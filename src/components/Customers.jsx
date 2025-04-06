@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { AuthContext } from "../App";
 import Products from "./Products";
+import Profile from "./Profile";
 import { useTranslation } from "react-i18next";
 
 function Customers() {
   const [email, setEmail] = useState("");
+  const [profile, setProfile] = useState(false);
   const [password, setPassword] = useState("");
   const auth = getAuth();
   const { user, logout, db, app, unsubscribeRef } = useContext(AuthContext);
@@ -43,6 +45,9 @@ function Customers() {
               {t("customersGreeteng")}
               {user.email}
             </div>
+            <button onClick={() => setProfile(true)} className="customers-btnlogout">
+              {t("profile")}
+            </button>
             <button
               className="customers-btnlogout"
               onClick={() => {
@@ -52,9 +57,21 @@ function Customers() {
               {t("customersLogOut")}
             </button>
           </div>
-          <div className="customers-block-products">
-            <Products db={db} app={app} auth={auth} unsubscribeRef={unsubscribeRef} />
-          </div>
+          {profile ? (
+            <>
+              <Profile db={db} />
+              <div className="customers-profile-block-btn-profile">
+                <button onClick={() => setProfile(false)} className="customers-btnlogout">
+                  {t("cancel")}
+                </button>
+              </div>
+            </>
+          ) : (
+            <div className="customers-block-products">
+              <Products db={db} app={app} auth={auth} unsubscribeRef={unsubscribeRef} />
+            </div>
+          )}
+
           <div className="customers-meinblock"></div>
         </div>
       ) : (

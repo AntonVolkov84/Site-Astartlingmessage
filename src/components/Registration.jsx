@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../App";
 import MapWindow from "./MapWindow";
 import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import PhoneSignIn from "./PhoneSignIn";
@@ -19,6 +18,8 @@ function Registration() {
   const [chatId, setChatId] = useState(null);
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [startWorkingTime, setStartWorkingTime] = useState("");
+  const [endWorkingTime, setEndWorkingTime] = useState("");
   const [phoneRegistrationComplete, setPhoneRegistrationComplite] = useState(false);
   const [telegrammBotGettingChatId, setTelegrammBotGettingChatId] = useState(true);
   const [location, setLocation] = useState(null);
@@ -35,6 +36,8 @@ function Registration() {
     setLocation(null);
     setUserPhone("");
     setChatId(null);
+    setStartWorkingTime("");
+    setEndWorkingTime("");
   };
 
   const handleLocationSelect = (location) => {
@@ -46,7 +49,7 @@ function Registration() {
     if (!isEmail(email)) {
       return alert(`${t("registrationVerificationDataAlertEmail")}`);
     }
-    if (!email || !companyName || !password || !passwordConfirm) {
+    if (!email || !companyName || !password || !passwordConfirm || !startWorkingTime || !endWorkingTime) {
       return alert(`${t("registrationVerificationDataAlertFields")}`);
     }
     if (companyName.length < 2) {
@@ -57,6 +60,9 @@ function Registration() {
     }
     if (password.length < 6) {
       return alert(`${t("registrationVerificationDataAlertPasswordLength")}`);
+    }
+    if (startWorkingTime >= endWorkingTime) {
+      return alert(`${t("registrationVerificationDataTime")}`);
     }
     if (!location) {
       return alert(`${t("registrationVerificationDataAlertLocation")}`);
@@ -81,6 +87,8 @@ function Registration() {
         email: emailInLowerCase,
         telegrammChatId: chatId,
         companyName,
+        startWorkingTime,
+        endWorkingTime,
         geohash: hash,
         location: {
           lat: lat,
@@ -101,6 +109,8 @@ function Registration() {
         telegrammChatId: chatId,
         timestamp: serverTimestamp(),
         nikname: companyName,
+        startWorkingTime,
+        endWorkingTime,
         email: emailInLowerCase,
         userId: userId,
         phoneNumber: userPhone,
@@ -131,7 +141,7 @@ function Registration() {
         console.log(errorCode, errorMessage);
       });
   };
-
+  const hours = Array.from({ length: 25 }, (_, i) => i);
   return (
     <div className="registration">
       {phoneRegistrationComplete ? (
@@ -157,6 +167,35 @@ function Registration() {
                 placeholder={t("registrationPlaceholderCompany")}
                 className="registration-inputMail"
               ></input>
+              <select
+                value={startWorkingTime}
+                onChange={(e) => setStartWorkingTime(e.target.value)}
+                placeholder={t("registrationPlaceholderStartTime")}
+                className="registration-inputMail"
+              >
+                <option className="registration-time" value="" disabled selected hidden>
+                  {t("registrationPlaceholderStartTime")}
+                </option>
+                {hours.map((hour) => (
+                  <option className="registration-time" key={hour} value={hour}>
+                    {hour}:00
+                  </option>
+                ))}
+              </select>
+              <select
+                value={endWorkingTime}
+                onChange={(e) => setEndWorkingTime(e.target.value)}
+                className="registration-inputMail"
+              >
+                <option value="" disabled selected hidden>
+                  {t("registrationPlaceholderEndTime")}
+                </option>
+                {hours.map((hour) => (
+                  <option className="registration-time" key={hour} value={hour}>
+                    {hour}:00
+                  </option>
+                ))}
+              </select>
               <input
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
