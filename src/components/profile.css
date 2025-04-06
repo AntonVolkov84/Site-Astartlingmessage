@@ -64,3 +64,9 @@
   aspect-ratio: 1;
   object-fit: cover;
 }
+.profile-inputMail {
+  height: 30px;
+  width: 100px;
+  position: absolute;
+  right: 100px;
+}

@@ -11,7 +11,10 @@ function Profile({ db }) {
   const [userData, setUserData] = useState(null);
   const [customerData, setCustomerData] = useState(null);
   const [modalNikname, setModalNikname] = useState(false);
+  const [modalTimeWorking, setModalTimeWorking] = useState(false);
   const [newNikname, setNewNikname] = useState("");
+  const [newStartWorkingTime, setNewStartWorkingTime] = useState("");
+  const [newEndWorkingTime, setNewEndWorkingTime] = useState("");
   const [location, setLocation] = useState(null);
   const auth = getAuth();
   const currentUserEmail = auth.currentUser.email;
@@ -63,7 +66,23 @@ function Profile({ db }) {
       console.log("updateLocation", error);
     }
   };
-
+  const hours = Array.from({ length: 25 }, (_, i) => i);
+  const updateWorkingTime = async () => {
+    if (!newStartWorkingTime || !newEndWorkingTime || newEndWorkingTime - newStartWorkingTime <= 0) {
+      return alert(`${t("registrationVerificationDataTime")}`);
+    }
+    try {
+      const docRef = doc(db, "customers", currentUserEmail);
+      await updateDoc(docRef, {
+        startWorkingTime: newStartWorkingTime,
+        endWorkingTime: newEndWorkingTime,
+      });
+      setNewEndWorkingTime("");
+      setNewStartWorkingTime("");
+    } catch (error) {
+      console.log("updateWorkingTime", error.message);
+    }
+  };
   return (
     <div className="profile">
       {userData && customerData && (
@@ -73,11 +92,11 @@ function Profile({ db }) {
             <div className="profile-info-text">{userData.email}</div>
           </div>
           <div className="profile-info">
-            <div className="profile-info-name">Phone:</div>
+            <div className="profile-info-name">{t("profilePhone")}</div>
             <div className="profile-info-text">{userData.phoneNumber}</div>
           </div>
           <div className="profile-info">
-            <div className="profile-info-name">Nikname:</div>
+            <div className="profile-info-name">{t("profileNikname")}</div>
             {modalNikname ? (
               <>
                 <input
@@ -111,18 +130,74 @@ function Profile({ db }) {
             )}
           </div>
           <div className="profile-info">
-            <div className="profile-info-name">Open shop time:</div>
-            <div className="profile-info-text">{userData.startWorkingTime || "Please, choose time"}</div>
-            <button onClick={() => console.log("Edit")} className="profile-info-icon">
-              <img className="profile-icon" img src={edit} alt="Update"></img>
-            </button>
+            <div className="profile-info-name">{t("profileopentime")}</div>
+            {modalTimeWorking ? (
+              <>
+                <select
+                  value={newStartWorkingTime}
+                  onChange={(e) => setNewStartWorkingTime(e.target.value)}
+                  placeholder={t("registrationPlaceholderStartTime")}
+                  className="profile-inputMail"
+                >
+                  {hours.map((hour) => (
+                    <option key={hour} value={hour}>
+                      {hour}:00
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => {
+                    setModalTimeWorking(false);
+                    updateWorkingTime();
+                  }}
+                  className="profile-info-icon-modal"
+                >
+                  {t("update")}
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="profile-info-text">{userData.startWorkingTime || "Please, choose time"}</div>
+                <button onClick={() => setModalTimeWorking(true)} className="profile-info-icon">
+                  <img className="profile-icon" img src={edit} alt="Update"></img>
+                </button>
+              </>
+            )}
           </div>
           <div className="profile-info">
-            <div className="profile-info-name">End of working day:</div>
-            <div className="profile-info-text">{userData.endWorkingTime || "Please, choose time"}</div>
-            <button onClick={() => console.log("Edit")} className="profile-info-icon">
-              <img className="profile-icon" img src={edit} alt="Update"></img>
-            </button>
+            <div className="profile-info-name">{t("profileclosetime")}</div>
+            {modalTimeWorking ? (
+              <>
+                <select
+                  value={newEndWorkingTime}
+                  onChange={(e) => setNewEndWorkingTime(e.target.value)}
+                  placeholder={t("registrationPlaceholderStartTime")}
+                  className="profile-inputMail"
+                >
+                  {hours.map((hour) => (
+                    <option key={hour} value={hour}>
+                      {hour}:00
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={() => {
+                    setModalTimeWorking(false);
+                    updateWorkingTime();
+                  }}
+                  className="profile-info-icon-modal"
+                >
+                  {t("update")}
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="profile-info-text">{userData.startWorkingTime || "Please, choose time"}</div>
+                <button onClick={() => setModalTimeWorking(true)} className="profile-info-icon">
+                  <img className="profile-icon" img src={edit} alt="Update"></img>
+                </button>
+              </>
+            )}
           </div>
         </>
       )}

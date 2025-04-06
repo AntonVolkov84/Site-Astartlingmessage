@@ -61,7 +61,7 @@ function Registration() {
     if (password.length < 6) {
       return alert(`${t("registrationVerificationDataAlertPasswordLength")}`);
     }
-    if (startWorkingTime >= endWorkingTime) {
+    if (endWorkingTime - startWorkingTime <= 0) {
       return alert(`${t("registrationVerificationDataTime")}`);
     }
     if (!location) {

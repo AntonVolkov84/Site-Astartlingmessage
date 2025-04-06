@@ -76,5 +76,9 @@
   "homeInfoFinal": "Try it, install it and communicate. Everyone will be super pleased to receive their 'Startling message', which will lift their spirits and give them unforgettable impressions!",
   "customers": "Welcome, dear sellers. You can register on this page, or just log in if you have done so before. When registering, follow the system instructions - it will not take more than 5 minutes. Please be extremely careful when specifying your location, as a list of products from the surrounding area will be formed based on it. Be sure to subscribe to the telegram bot - it will deliver you information about the received order.",
   "customers1": "Please note that when forming the price for a possible gift in the 'A Startling Message' application, you must take into account the cost of delivery to the recipient.",
-  "customers2": "You can always contact the application administration using the contacts below. Thank you for your cooperation!"
+  "customers2": "You can always contact the application administration using the contacts below. Thank you for your cooperation!",
+  "profileopentime": "Open shop time:",
+  "profileclosetime": "End of working day:",
+  "profilePhone": "Phone:",
+  "profileNikname": "Nikname:"
 }
