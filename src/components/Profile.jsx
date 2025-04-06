@@ -157,7 +157,9 @@ function Profile({ db }) {
               </>
             ) : (
               <>
-                <div className="profile-info-text">{userData.startWorkingTime || "Please, choose time"}</div>
+                <div className="profile-info-text">
+                  {customerData.startWorkingTime + ":00" || "Please, choose time"}
+                </div>
                 <button onClick={() => setModalTimeWorking(true)} className="profile-info-icon">
                   <img className="profile-icon" img src={edit} alt="Update"></img>
                 </button>
@@ -192,7 +194,7 @@ function Profile({ db }) {
               </>
             ) : (
               <>
-                <div className="profile-info-text">{userData.startWorkingTime || "Please, choose time"}</div>
+                <div className="profile-info-text">{customerData.endWorkingTime + ":00" || "Please, choose time"}</div>
                 <button onClick={() => setModalTimeWorking(true)} className="profile-info-icon">
                   <img className="profile-icon" img src={edit} alt="Update"></img>
                 </button>
