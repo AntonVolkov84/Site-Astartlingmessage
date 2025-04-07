@@ -45,7 +45,7 @@ function Customers() {
               {t("customersGreeteng")}
               {user.email}
             </div>
-            <button onClick={() => setProfile(true)} className="customers-btnlogout">
+            <button onClick={() => setProfile(!profile)} className="customers-btnlogout">
               {t("profile")}
             </button>
             <button
