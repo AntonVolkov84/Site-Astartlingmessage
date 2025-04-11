@@ -1,0 +1,38 @@
+.payments {
+  min-height: 1200px;
+  max-width: 900px;
+  background-color: #bac8d9;
+  margin: 0 auto;
+  padding: 20px;
+}
+.payments-block-login {
+  margin: 15px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.payments-block-login-title {
+  margin-bottom: 10px;
+}
+.payments-block-info {
+  max-width: 900px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.payments-authtext {
+  width: 80%;
+  text-align: center;
+  margin-top: 5px;
+}
+.payments-btnlogout {
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 15px;
+  margin-top: 5px;
+  margin-right: 5px;
+}

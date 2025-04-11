@@ -18,6 +18,9 @@ function Header() {
         <NavLink to="/" className={({ isActive }) => (isActive ? "menu-home-active" : "menu-home")}>
           <h3 className="header-href">{t("headerHome")}</h3>
         </NavLink>
+        <NavLink to="payments" className={({ isActive }) => (isActive ? "menu-home-active" : "menu-home")}>
+          <h3 className="header-href">{t("headerPayments")}</h3>
+        </NavLink>
         <NavLink
           className={({ isActive }) => (isActive ? "menu-confidential-active" : "menu-confidential")}
           to="confidential"

@@ -90,8 +90,7 @@
   height: 20px;
   margin-bottom: 5px;
   width: 100%;
-  gap: 150px;
-  justify-content: center;
+  justify-content: space-around;
 }
 .header-language-text {
   border: none;

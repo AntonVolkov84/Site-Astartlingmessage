@@ -128,6 +128,10 @@
 .products-show-btn-delete {
   margin-right: 10px;
 }
+.img {
+  width: 20px;
+  aspect-ratio: 1;
+}
 .products-show-btn-delete:hover,
 .products-show-btn-edit:hover {
   background-color: blueviolet;

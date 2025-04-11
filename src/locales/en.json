@@ -14,6 +14,7 @@
   "customersPlaceholderEmail": "Type your mail",
   "customersPlaceholderPassword": "Type your password",
   "headerHome": "Home",
+  "headerPayments": "Payment",
   "headerConfidential": "Confidential",
   "headerCustomers": "Customers",
   "phoneSignInRecapthcaAlert": "Recaptcha expired! Please solve it again.",

@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import Registration from "./components/Registration";
+import Payments from "./components/Payments";
 import { GeoFirestore } from "geofirestore";
 import "./i18n";
 
@@ -71,6 +72,7 @@ function App() {
               <Route path="/" element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path="customers" element={<Customers />} />
+                <Route path="payments" element={<Payments />} />
                 <Route path="confidential" element={<Confidential />} />
                 <Route path="registration" element={<Registration app={app} db={db} />} />
               </Route>
