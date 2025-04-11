@@ -86,5 +86,9 @@
   "paymentsGreeteng": "Welcome in payment interface ",
   "paymentsAmmount": "Ammount on your account: ",
   "paymentsTitle": "Do you want to top up your account?",
-  "paymentInfo": "You must to login for refull youy account"
+  "paymentInfo": "You must to login for refull youy account",
+  "paymentAlertAmmound": "Something is wrong with the top-up amount",
+  "paymentAlertCardNumber": "There is something wrong with the card number",
+  "paymentAlertExpiryDate": "Something is wrong with Expiry Date",
+  "paymentAlertCvc": "There is something wrong with the CVC"
 }

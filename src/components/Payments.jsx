@@ -35,6 +35,41 @@ export default function Payments() {
       return () => unsubUser();
     }
   }, [currentUserEmail]);
+
+  const checkAmound = (ammound) => {
+    if (cvc.length <= 4) {
+      return true;
+    } else {
+      alert(`${t("paymentAlertAmound")}`);
+      return false;
+    }
+  };
+  const checkCardNumber = (number) => {
+    const trimmedNumber = number.replace(/\s+/g, "");
+    if (trimmedNumber.length === 16) {
+      return true;
+    } else {
+      alert(`${t("paymentAlertCardNumber")}`);
+      return false;
+    }
+  };
+  const checkExpiryDate = (expiryDate) => {
+    if (expiryDate.length == 4) {
+      return true;
+    } else {
+      alert(`${t("paymentAlertExpiryDate")}`);
+      return false;
+    }
+  };
+  const checkCvc = (cvc) => {
+    if (cvc.length == 3) {
+      return true;
+    } else {
+      alert(`${t("paymentAlertCvc")}`);
+      return false;
+    }
+  };
+
   const sendPayment = async () => {
     const paymentData = {
       ammount,
@@ -43,11 +78,18 @@ export default function Payments() {
       cvc,
     };
     clearInputs();
-    const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
-    if (!result) {
-      console.log("Ошибка платежа");
-    } else {
-      console.log("result of payment", result);
+    if (
+      checkAmound(paymentData.ammount) &&
+      checkCardNumber(paymentData.cardNumber) &&
+      checkExpiryDate(paymentData.expiryDate) &&
+      checkCvc(paymentData.cvc)
+    ) {
+      try {
+        const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
+        return result;
+      } catch (error) {
+        console.log("sendPayment", error.message);
+      }
     }
   };
   const isEmail = (email) => {

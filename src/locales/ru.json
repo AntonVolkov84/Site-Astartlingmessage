@@ -86,5 +86,9 @@
   "paymentsGreeteng": "Добро пожаловать в меню оплаты ",
   "paymentsAmmount": "Сумма на вашем счету: ",
   "paymentsTitle": "Хотите пополнить счет?",
-  "paymentInfo": "Вы должны войти, чтобы пополнить счет"
+  "paymentInfo": "Вы должны войти, чтобы пополнить счет",
+  "paymentAlertAmound": "Что-то не так с суммой пополнения счета",
+  "paymentAlertCardNumber": "Что-то не так с номером карты",
+  "paymentAlertExpiryDate": "Что-то не так с Expiry Date",
+  "paymentAlertCvc": "Что-то не так с CVC"
 }
