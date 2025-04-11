@@ -6,6 +6,7 @@
   "add": "Add",
   "delete": "Delete",
   "profile": "Profile",
+  "submit": "Pay",
   "registration": "Registration",
   "customersAlertEmail": "Something wrong in your email",
   "customersAlertPassword": "Your password should be longer then 6 symbols",

@@ -5,16 +5,27 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { doc, onSnapshot } from "firebase/firestore";
+import axios from "axios";
 
 export default function Payments() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [ammount, setAmmount] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvc, setCvc] = useState("");
   const [userData, setUserData] = useState(null);
   const { t } = useTranslation();
   const { logout, db, user } = useContext(AuthContext);
   const auth = getAuth();
   const currentUserEmail = auth.currentUser?.email;
 
+  const clearInputs = () => {
+    setAmmount("");
+    setCardNumber("");
+    setExpiryDate("");
+    setCvc("");
+  };
   useEffect(() => {
     if (currentUserEmail) {
       const unsubUser = onSnapshot(doc(db, "users", auth.currentUser.email), (doc) => {
@@ -24,7 +35,21 @@ export default function Payments() {
       return () => unsubUser();
     }
   }, [currentUserEmail]);
-
+  const sendPayment = async () => {
+    const paymentData = {
+      ammount,
+      cardNumber,
+      expiryDate,
+      cvc,
+    };
+    clearInputs();
+    const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
+    if (!result) {
+      console.log("Ошибка платежа");
+    } else {
+      console.log("result of payment", result);
+    }
+  };
   const isEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
@@ -45,7 +70,18 @@ export default function Payments() {
     setEmail("");
     setPassword("");
   };
-
+  const formatCardNumber = (number) => {
+    return number
+      .replace(/\s?/g, "")
+      .replace(/(\d{4})/g, "$1 ")
+      .trim();
+  };
+  const handleCardNumberChange = (e) => {
+    const rawValue = e.target.value.replace(/\s/g, "");
+    if (/^\d*$/.test(rawValue)) {
+      setCardNumber(formatCardNumber(rawValue));
+    }
+  };
   return (
     <section className="payments">
       {user ? (
@@ -74,6 +110,62 @@ export default function Payments() {
                   {t("paymentsAmmount")} {userData.userAccount || 0}
                 </h4>
                 <h4 className="payments-form-text">{t("paymentsTitle")}</h4>
+              </div>
+              <div className="credit-card-form">
+                <div className="card-display">
+                  <div className="card-number">{cardNumber || "•••• •••• •••• ••••"}</div>
+                  <div className="card-expiry">{expiryDate || "MM/YY"}</div>
+                  <div className="card-cvc">{cvc || "•••"}</div>
+                </div>
+                <form>
+                  <div className="input-group">
+                    <label>Ammount</label>
+                    <input
+                      type="text"
+                      value={ammount}
+                      onChange={(e) => setAmmount(e.target.value)}
+                      placeholder="100.00"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label>Card Number</label>
+                    <input
+                      type="text"
+                      maxLength={19}
+                      value={cardNumber}
+                      onChange={handleCardNumberChange}
+                      placeholder="1234 5678 9012 3456"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label>Expiry Date</label>
+                    <input
+                      type="text"
+                      maxLength={4}
+                      value={expiryDate}
+                      onChange={(e) => setExpiryDate(e.target.value)}
+                      placeholder="MM/YY"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label>CVC</label>
+                    <input
+                      type="text"
+                      maxLength={3}
+                      value={cvc}
+                      onChange={(e) => setCvc(e.target.value)}
+                      placeholder="123"
+                    />
+                  </div>
+                </form>
+                <button
+                  onClick={() => {
+                    sendPayment();
+                  }}
+                  className="payments-submit"
+                >
+                  {t("submit")}
+                </button>
               </div>
             </>
           ) : (
