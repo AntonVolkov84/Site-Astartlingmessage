@@ -114,6 +114,7 @@ function Registration() {
         email: emailInLowerCase,
         userId: userId,
         phoneNumber: userPhone,
+        userAccount: 0,
       };
       await setDoc(doc(db, "users", emailInLowerCase), user);
     } catch (error) {

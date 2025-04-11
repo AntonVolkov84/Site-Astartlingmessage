@@ -4,14 +4,26 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export default function Payments() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userData, setUserData] = useState(null);
   const { t } = useTranslation();
-  const { logout } = useContext(AuthContext);
+  const { logout, db, user } = useContext(AuthContext);
   const auth = getAuth();
-  const currentUser = auth.currentUser;
+  const currentUserEmail = auth.currentUser?.email;
+
+  useEffect(() => {
+    if (currentUserEmail) {
+      const unsubUser = onSnapshot(doc(db, "users", auth.currentUser.email), (doc) => {
+        setUserData(doc.data());
+      });
+
+      return () => unsubUser();
+    }
+  }, [currentUserEmail]);
 
   const isEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -33,26 +45,44 @@ export default function Payments() {
     setEmail("");
     setPassword("");
   };
+
   return (
     <section className="payments">
-      {currentUser ? (
-        <div className="payments-block-info">
-          <div className="payments-authtext">
-            {t("customersGreeteng")}
-            {currentUser.email}
-          </div>
-          <button
-            className="payments-btnlogout"
-            onClick={() => {
-              logout();
-            }}
-          >
-            {t("customersLogOut")}
-          </button>
-        </div>
+      {user ? (
+        <>
+          {userData ? (
+            <>
+              <div className="payments-block-info">
+                <div className="payments-authtext">
+                  {t("paymentsGreeteng")}
+                  {currentUserEmail}
+                </div>
+                <button
+                  className="payments-btnlogout"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  {t("customersLogOut")}
+                </button>
+              </div>
+              <div className="payments-block-form">
+                <h4 className="payments-form-text">
+                  {t("profile")} {userData.email}
+                </h4>
+                <h4 className="payments-form-text">
+                  {t("paymentsAmmount")} {userData.userAccount || 0}
+                </h4>
+                <h4 className="payments-form-text">{t("paymentsTitle")}</h4>
+              </div>
+            </>
+          ) : (
+            <p className="payment-loading">Loading...</p>
+          )}
+        </>
       ) : (
         <div className="payments-block-login">
-          <h3 className="payments-block-login-title">You must to login for refull youy account</h3>
+          <h3 className="payments-block-login-title">{t("paymentInfo")}</h3>
           <form className="customers-block-registerWithMail">
             <input
               type="email"

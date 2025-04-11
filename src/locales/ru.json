@@ -81,5 +81,9 @@
   "profileopentime": "Открытие магазина:",
   "profileclosetime": "Конец рабочего дня:",
   "profilePhone": "Телефон:",
-  "profileNikname": "Ник:"
+  "profileNikname": "Ник:",
+  "paymentsGreeteng": "Добро пожаловать в меню оплаты ",
+  "paymentsAmmount": "Сумма на вашем счету: ",
+  "paymentsTitle": "Хотите пополнить счет?",
+  "paymentInfo": "Вы должны войти, чтобы пополнить счет"
 }

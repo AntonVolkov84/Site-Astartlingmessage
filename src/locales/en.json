@@ -81,5 +81,9 @@
   "profileopentime": "Open shop time:",
   "profileclosetime": "End of working day:",
   "profilePhone": "Phone:",
-  "profileNikname": "Nikname:"
+  "profileNikname": "Nikname:",
+  "paymentsGreeteng": "Welcome in payment interface ",
+  "paymentsAmmount": "Ammount on your account: ",
+  "paymentsTitle": "Do you want to top up your account?",
+  "paymentInfo": "You must to login for refull youy account"
 }
