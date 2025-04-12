@@ -37,7 +37,7 @@ export default function Payments() {
   }, [currentUserEmail]);
 
   const checkAmound = (ammound) => {
-    if (cvc.length <= 4) {
+    if (ammound.length <= 4) {
       return true;
     } else {
       alert(`${t("paymentAlertAmound")}`);
@@ -86,6 +86,7 @@ export default function Payments() {
     ) {
       try {
         const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
+        console.log(result.data);
         return result;
       } catch (error) {
         console.log("sendPayment", error.message);
@@ -122,6 +123,20 @@ export default function Payments() {
     const rawValue = e.target.value.replace(/\s/g, "");
     if (/^\d*$/.test(rawValue)) {
       setCardNumber(formatCardNumber(rawValue));
+    }
+  };
+  const handleExpiryDateChange = (e) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/[^0-9]/g, "");
+    if (numericValue.length <= 4) {
+      setExpiryDate(numericValue);
+    }
+  };
+  const handleCvcChange = (e) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/[^0-9]/g, "");
+    if (numericValue.length <= 3) {
+      setCvc(numericValue);
     }
   };
   return (
@@ -163,7 +178,7 @@ export default function Payments() {
                   <div className="input-group">
                     <label>Ammount</label>
                     <input
-                      type="text"
+                      type="number"
                       value={ammount}
                       onChange={(e) => setAmmount(e.target.value)}
                       placeholder="100.00"
@@ -185,19 +200,13 @@ export default function Payments() {
                       type="text"
                       maxLength={4}
                       value={expiryDate}
-                      onChange={(e) => setExpiryDate(e.target.value)}
+                      onChange={handleExpiryDateChange}
                       placeholder="MM/YY"
                     />
                   </div>
                   <div className="input-group">
                     <label>CVC</label>
-                    <input
-                      type="text"
-                      maxLength={3}
-                      value={cvc}
-                      onChange={(e) => setCvc(e.target.value)}
-                      placeholder="123"
-                    />
+                    <input type="text" maxLength={3} value={cvc} onChange={handleCvcChange} placeholder="123" />
                   </div>
                 </form>
                 <button
