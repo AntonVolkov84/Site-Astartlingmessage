@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
 import "./payments.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useTranslation } from "react-i18next";
@@ -54,7 +54,7 @@ export default function Payments() {
     }
   };
   const checkExpiryDate = (expiryDate) => {
-    if (expiryDate.length == 4) {
+    if (expiryDate.length === 4) {
       return true;
     } else {
       alert(`${t("paymentAlertExpiryDate")}`);
@@ -62,7 +62,7 @@ export default function Payments() {
     }
   };
   const checkCvc = (cvc) => {
-    if (cvc.length == 3) {
+    if (cvc.length === 3) {
       return true;
     } else {
       alert(`${t("paymentAlertCvc")}`);
@@ -72,6 +72,7 @@ export default function Payments() {
 
   const sendPayment = async () => {
     const paymentData = {
+      email: currentUserEmail,
       ammount,
       cardNumber,
       expiryDate,
@@ -161,7 +162,7 @@ export default function Payments() {
               </div>
               <div className="payments-block-form">
                 <h4 className="payments-form-text">
-                  {t("profile")} {userData.email}
+                  {t("profile")} {userData.email || "Wait..."}
                 </h4>
                 <h4 className="payments-form-text">
                   {t("paymentsAmmount")} {userData.userAccount || 0}
