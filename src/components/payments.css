@@ -98,3 +98,22 @@ input {
 .payments-btnlogout:hover {
   background-color: blueviolet;
 }
+.payments-logos {
+  max-width: 900px;
+  height: fit-content;
+  margin-top: 10px;
+}
+.payments-logos-item {
+  object-fit: fill;
+  width: 100%;
+}
+.payments-return-title {
+  color: darkred;
+  margin-top: 10px;
+}
+.payments-return-info {
+  text-align: center;
+}
+.payments-return-items {
+  margin-left: 20px;
+}

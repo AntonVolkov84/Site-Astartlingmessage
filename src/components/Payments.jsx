@@ -1,31 +1,21 @@
-import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./payments.css";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { doc, onSnapshot } from "firebase/firestore";
-import axios from "axios";
+import logo from "../images/horizontal logos.png";
 
 export default function Payments() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [ammount, setAmmount] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
-  const [cvc, setCvc] = useState("");
   const [userData, setUserData] = useState(null);
   const { t } = useTranslation();
   const { logout, db, user } = useContext(AuthContext);
   const auth = getAuth();
   const currentUserEmail = auth.currentUser?.email;
 
-  const clearInputs = () => {
-    setAmmount("");
-    setCardNumber("");
-    setExpiryDate("");
-    setCvc("");
-  };
   useEffect(() => {
     if (currentUserEmail) {
       const unsubUser = onSnapshot(doc(db, "users", auth.currentUser.email), (doc) => {
@@ -35,65 +25,6 @@ export default function Payments() {
       return () => unsubUser();
     }
   }, [currentUserEmail]);
-
-  const checkAmound = (ammound) => {
-    if (ammound.length <= 4) {
-      return true;
-    } else {
-      alert(`${t("paymentAlertAmound")}`);
-      return false;
-    }
-  };
-  const checkCardNumber = (number) => {
-    const trimmedNumber = number.replace(/\s+/g, "");
-    if (trimmedNumber.length === 16) {
-      return true;
-    } else {
-      alert(`${t("paymentAlertCardNumber")}`);
-      return false;
-    }
-  };
-  const checkExpiryDate = (expiryDate) => {
-    if (expiryDate.length === 4) {
-      return true;
-    } else {
-      alert(`${t("paymentAlertExpiryDate")}`);
-      return false;
-    }
-  };
-  const checkCvc = (cvc) => {
-    if (cvc.length === 3) {
-      return true;
-    } else {
-      alert(`${t("paymentAlertCvc")}`);
-      return false;
-    }
-  };
-
-  const sendPayment = async () => {
-    const paymentData = {
-      email: currentUserEmail,
-      ammount,
-      cardNumber,
-      expiryDate,
-      cvc,
-    };
-    clearInputs();
-    if (
-      checkAmound(paymentData.ammount) &&
-      checkCardNumber(paymentData.cardNumber) &&
-      checkExpiryDate(paymentData.expiryDate) &&
-      checkCvc(paymentData.cvc)
-    ) {
-      try {
-        const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
-        alert(result.data.message);
-        return result;
-      } catch (error) {
-        console.log("sendPayment", error.message);
-      }
-    }
-  };
   const isEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
@@ -113,32 +44,6 @@ export default function Payments() {
     });
     setEmail("");
     setPassword("");
-  };
-  const formatCardNumber = (number) => {
-    return number
-      .replace(/\s?/g, "")
-      .replace(/(\d{4})/g, "$1 ")
-      .trim();
-  };
-  const handleCardNumberChange = (e) => {
-    const rawValue = e.target.value.replace(/\s/g, "");
-    if (/^\d*$/.test(rawValue)) {
-      setCardNumber(formatCardNumber(rawValue));
-    }
-  };
-  const handleExpiryDateChange = (e) => {
-    const value = e.target.value;
-    const numericValue = value.replace(/[^0-9]/g, "");
-    if (numericValue.length <= 4) {
-      setExpiryDate(numericValue);
-    }
-  };
-  const handleCvcChange = (e) => {
-    const value = e.target.value;
-    const numericValue = value.replace(/[^0-9]/g, "");
-    if (numericValue.length <= 3) {
-      setCvc(numericValue);
-    }
   };
   return (
     <section className="payments">
@@ -160,65 +65,23 @@ export default function Payments() {
                   {t("customersLogOut")}
                 </button>
               </div>
+              <div className="payments-logos">
+                <img className="payments-logos-item" src={logo} alt="logo payservice"></img>
+              </div>
               <div className="payments-block-form">
                 <h4 className="payments-form-text">
-                  {t("profile")} {userData.email || "Wait..."}
+                  {t("profile")}: {userData.email || "Wait..."}
                 </h4>
                 <h4 className="payments-form-text">
                   {t("paymentsAmmount")} {userData.userAccount || 0}
                 </h4>
                 <h4 className="payments-form-text">{t("paymentsTitle")}</h4>
               </div>
-              <div className="credit-card-form">
-                <div className="card-display">
-                  <div className="card-number">{cardNumber || "•••• •••• •••• ••••"}</div>
-                  <div className="card-expiry">{expiryDate || "MM/YY"}</div>
-                  <div className="card-cvc">{cvc || "•••"}</div>
-                </div>
-                <form>
-                  <div className="input-group">
-                    <label>Ammount</label>
-                    <input
-                      type="number"
-                      value={ammount}
-                      onChange={(e) => setAmmount(e.target.value)}
-                      placeholder="100.00"
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Card Number</label>
-                    <input
-                      type="text"
-                      maxLength={19}
-                      value={cardNumber}
-                      onChange={handleCardNumberChange}
-                      placeholder="1234 5678 9012 3456"
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>Expiry Date</label>
-                    <input
-                      type="text"
-                      maxLength={4}
-                      value={expiryDate}
-                      onChange={handleExpiryDateChange}
-                      placeholder="MM/YY"
-                    />
-                  </div>
-                  <div className="input-group">
-                    <label>CVC</label>
-                    <input type="text" maxLength={3} value={cvc} onChange={handleCvcChange} placeholder="123" />
-                  </div>
-                </form>
-                <button
-                  onClick={() => {
-                    sendPayment();
-                  }}
-                  className="payments-submit"
-                >
-                  {t("submit")}
-                </button>
-              </div>
+              <iframe
+                title="Пополнение счета"
+                src="https://demo.paykeeper.ru/form/"
+                style={{ width: "100%", height: "820px" }}
+              ></iframe>
             </>
           ) : (
             <p className="payment-loading">Loading...</p>
@@ -257,6 +120,29 @@ export default function Payments() {
               </Link>
             </div>
           </form>
+          <h2 className="payments-return-title">{t("paymentReturnTitile")}</h2>
+          <h4 className="payments-return-info">{t("paymentReturn")}</h4>
+          <ul>
+            <li className="payments-return-items">{t("paymentReturn1")}</li>
+            <li className="payments-return-items">{t("paymentReturn2")}</li>
+            <li className="payments-return-items">{t("paymentReturn3")}</li>
+            <li className="payments-return-items">{t("paymentReturn4")}</li>
+          </ul>
+          <h2 className="payments-return-title">{t("paymentCencellationTitle")}</h2>
+          <h4 className="payments-return-info">{t("paymentCencellation")}</h4>
+          <ul>
+            <li className="payments-return-items">{t("paymentCencellation1")}</li>
+            <li className="payments-return-items">
+              {t("paymentCencellation2")}
+              <ul>
+                <li className="payments-return-items">{t("paymentCencellation21")}</li>
+                <li className="payments-return-items">{t("paymentCencellation22")}</li>
+                <li className="payments-return-items">{t("paymentCencellation23")}</li>
+              </ul>
+            </li>
+            <li className="payments-return-items">{t("paymentCencellation3")}</li>
+            <li className="payments-return-items">{t("paymentCencellation4")}</li>
+          </ul>
         </div>
       )}
     </section>
