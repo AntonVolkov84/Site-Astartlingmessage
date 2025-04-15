@@ -7,7 +7,11 @@ function Footer() {
   return (
     <>
       <div className="footer">
-        {t("footer")} {t("INN")} {t("adress")} {t("email")} {t("phone")}
+        <p>{t("footer")}</p>
+        <p>{t("INN")}</p>
+        <p>{t("adress")}</p>
+        <p>{t("email")}</p>
+        <p>{t("phone")}</p>
       </div>
     </>
   );

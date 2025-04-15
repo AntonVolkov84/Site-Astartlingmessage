@@ -21,16 +21,16 @@ function Confidential() {
           registered in the application. 2.2. The purpose of this Privacy Policy is to ensure adequate protection of
           information about the User, incl. his personal data from unauthorized access and disclosure. 2.3. Relations
           related to the collection, storage, distribution and protection of information about users are governed by
-          this Privacy Policy and the current legislation of Ukraine. 2.4. The current version of the Privacy Policy is
-          a public document, developed by the Administration of the "A startling message" application and is available
-          to any Internet User when visit the site of the application. 2.5. The administration of the "A startling
-          message" application has the right to make changes to this Privacy Policy. 2.6. When changes are made to the
-          Privacy Policy, the Administration of the "A startling message" application notifies the User by posting a new
-          version of the Privacy Policy by adding a new version to the site. 2.7. When a new version of the Privacy
-          Policy is posted on the site, the previous version is stored in the documentation archive of the
-          Administration of the "A startling message" application. 2.8. By registering in the "A startling message"
-          application, the User agrees to the terms of this Privacy Policy. 2.9. The administration of the "A startling
-          message" application does not verify the accuracy of the information received (collected) about the User.
+          this Privacy Policy and the current legislation of Russia. 2.4. The current version of the Privacy Policy is a
+          public document, developed by the Administration of the "A startling message" application and is available to
+          any Internet User when visit the site of the application. 2.5. The administration of the "A startling message"
+          application has the right to make changes to this Privacy Policy. 2.6. When changes are made to the Privacy
+          Policy, the Administration of the "A startling message" application notifies the User by posting a new version
+          of the Privacy Policy by adding a new version to the site. 2.7. When a new version of the Privacy Policy is
+          posted on the site, the previous version is stored in the documentation archive of the Administration of the
+          "A startling message" application. 2.8. By registering in the "A startling message" application, the User
+          agrees to the terms of this Privacy Policy. 2.9. The administration of the "A startling message" application
+          does not verify the accuracy of the information received (collected) about the User.
         </p>
       </div>
       <div className="confidential-block">
@@ -71,7 +71,7 @@ function Confidential() {
           5.1. The User's personal data is not transferred to any third parties, except for the cases expressly provided
           for in this Privacy Policy and specified in the Consent to the newsletter. 5.2. The provision of the User’s
           personal data at the request of state bodies and local governments is carried out in the manner prescribed by
-          the legislation of Ukraine. 5.3 All participants in an "A startling message" published in the "A startling
+          the legislation of Russia. 5.3 All participants in an "A startling message" published in the "A startling
           message" application see information about the message creator.
         </p>
       </div>
