@@ -87,7 +87,7 @@ export default function Payments() {
     ) {
       try {
         const result = await axios.post(`https://stroymonitoring.info/test`, paymentData);
-        console.log(result.data);
+        alert(result.data.message);
         return result;
       } catch (error) {
         console.log("sendPayment", error.message);
