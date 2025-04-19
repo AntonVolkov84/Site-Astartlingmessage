@@ -11,11 +11,39 @@ export default function Payments() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userData, setUserData] = useState(null);
+  const [amount, setAmount] = useState(null);
   const { t } = useTranslation();
   const { logout, db, user } = useContext(AuthContext);
   const auth = getAuth();
   const currentUserEmail = auth.currentUser?.email;
-
+  const test = async (amount) => {
+    setAmount("");
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const idToken = await user.getIdToken();
+        const response = await fetch("https://stroymonitoring.info/test", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            email: user.email,
+            amount,
+          }),
+        });
+        const data = await response.json();
+        if (data.invoice_url) {
+          window.open(data.invoice_url, "_blank");
+        } else {
+          console.error("Ошибка при получении ссылки:", data.error);
+        }
+      }
+    } catch (error) {
+      console.log("test", error.message);
+    }
+  };
   useEffect(() => {
     if (currentUserEmail) {
       const unsubUser = onSnapshot(doc(db, "users", auth.currentUser.email), (doc) => {
@@ -77,11 +105,18 @@ export default function Payments() {
                 </h4>
                 <h4 className="payments-form-text">{t("paymentsTitle")}</h4>
               </div>
-              <iframe
-                title="Пополнение счета"
-                src="https://demo.paykeeper.ru/form/"
-                style={{ width: "100%", height: "820px" }}
-              ></iframe>
+              <div className="pauments-block-input">
+                <input
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder={t("paymentsAmmountPlaceholder")}
+                  className="inputMailAmount"
+                ></input>
+                <button className="payments-btnlogout" onClick={() => test(amount)}>
+                  {t("paymentPay")}
+                </button>
+              </div>
             </>
           ) : (
             <p className="payment-loading">Loading...</p>
