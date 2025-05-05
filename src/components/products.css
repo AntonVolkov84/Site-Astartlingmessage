@@ -52,7 +52,7 @@
   position: absolute;
   color: red;
   font-size: 10px;
-  left: 20%;
+  left: 15%;
   top: -8px;
 }
 .products-input-price:focus ~ .products-input-price-label {
@@ -60,8 +60,8 @@
   position: absolute;
   color: red;
   font-size: 10px;
-  left: 20%;
   top: -8px;
+  left: 15%;
 }
 .products-input-quantity {
   height: 30px;
@@ -152,6 +152,10 @@
   .products-btn-add {
     width: 50%;
     height: 30px;
+  }
+  .products-input-price:focus ~ .products-input-price-label,
+  .products-input-quantity:focus ~ .products-input-quantity-label {
+    left: 35%;
   }
 }
 @media (max-width: 560px) {

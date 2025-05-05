@@ -130,7 +130,7 @@ function Products({ db, auth, unsubscribeRef }) {
 
   const validationForm = (event) => {
     event.preventDefault();
-    if (!productName || !productQuantity || !productPrice || !selectedEmoji) {
+    if (!productName || !productQuantity || !productPrice || !selectedEmoji || productPrice <= 0) {
       return alert(`${t("productsApdateProdAlert")}`);
     } else {
       addToProducts(productName, productQuantity, productPrice, selectedEmoji);
