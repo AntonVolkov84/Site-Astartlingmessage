@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./customers.css";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -6,14 +6,31 @@ import { AuthContext } from "../App";
 import Products from "./Products";
 import Profile from "./Profile";
 import { useTranslation } from "react-i18next";
+import { doc, getDoc } from "firebase/firestore";
 
 function Customers() {
   const [email, setEmail] = useState("");
   const [profile, setProfile] = useState(false);
   const [password, setPassword] = useState("");
+  const [isCurrentUserSaller, setIsCurrentUserSeller] = useState(false);
   const auth = getAuth();
   const { user, logout, db, app, unsubscribeRef } = useContext(AuthContext);
   const { t } = useTranslation();
+
+  const getGeohashField = async () => {
+    const currentUser = auth.currentUser;
+    try {
+      if (currentUser) {
+        const email = currentUser.email;
+        const q = await getDoc(doc(db, "customers", email));
+        return q.exists();
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log("getGeohashField", error.message);
+    }
+  };
 
   const loginWithEmail = (e) => {
     e.preventDefault();
@@ -30,7 +47,16 @@ function Customers() {
     });
     setEmail("");
     setPassword("");
+    getGeohashField().then((isSeller) => {
+      if (!isSeller) {
+        setIsCurrentUserSeller(isSeller);
+        return alert(`${t("customersAlertNotSeller")}`);
+      } else {
+        setIsCurrentUserSeller(isSeller);
+      }
+    });
   };
+  console.log(isCurrentUserSaller);
   const isEmail = (email) => {
     var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return regex.test(email);
@@ -38,7 +64,7 @@ function Customers() {
 
   return (
     <>
-      {user ? (
+      {user && isCurrentUserSaller ? (
         <div className="customers-auth">
           <div className="customers-block-info">
             <div className="customers-authtext">
@@ -51,6 +77,7 @@ function Customers() {
             <button
               className="customers-btnlogout"
               onClick={() => {
+                setIsCurrentUserSeller(false);
                 logout();
               }}
             >
